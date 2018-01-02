@@ -8,7 +8,7 @@
     Document Title
     =============================================
     -->
-    <title>Titan | Multipurpose HTML5 Template</title>
+    <title>373-RENT Gainesville</title>
     <!--  
     Favicons
     =============================================
@@ -58,7 +58,7 @@
       <div class="page-loader">
         <div class="loader">Loading...</div>
       </div>
-      <nav class="navbar navbar-custom navbar-fixed-top navbar-transparent" role="navigation">
+      <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
         <div class="container">
           <div class="navbar-header">
             <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#custom-collapse"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a class="navbar-brand" href="index.html">373-RENT</a>
@@ -184,139 +184,107 @@
 
 		
         <section class="module pb-0" id="thingsToDo">
+      <h2 class="module-title font-alt" >Food & Entertainment in the Area</h2>
+        <div class="rwi">
           <div class="container">
-		  <h2 class="module-title font-alt" >Food & Entertainment in the Area</h2>
-            <div class="row" id="stuffToDo">
+            <div class="row">
               <div class="col-sm-12" >
                 <ul class="filter font-alt" id="filters" >
                   <li><a class="current wow fadeInUp" href="#" data-filter="*">All</a></li>
-                  <li><a class="wow fadeInUp" href="#" data-filter=".illustration" data-wow-delay="0.2s">Illustration</a></li>
-                  <li><a class="wow fadeInUp" href="#" data-filter=".marketing" data-wow-delay="0.4s">Marketing</a></li>
-                  <li><a class="wow fadeInUp" href="#" data-filter=".photography" data-wow-delay="0.6s">Photography</a></li>
-                  <li><a class="wow fadeInUp" href="#" data-filter=".webdesign" data-wow-delay="0.6s">Web Design</a></li>
+                  <li><a class="wow fadeInUp" href="#" data-filter=".garden" data-wow-delay="0.5s">Gardens</a></li>
+                  <li><a class="wow fadeInUp" href="#" data-filter=".park" data-wow-delay="0.5s">Parks</a></li>
+                  <li><a class="wow fadeInUp" href="#" data-filter=".historic" data-wow-delay="0.5s">Historic Attractions</a></li>
+                  <li><a class="wow fadeInUp" href="#" data-filter=".food" data-wow-delay="0.5s">Food</a></li>
+                  <li><a class="wow fadeInUp" href="#" data-filter=".drinks" data-wow-delay="0.5s">Drinks</a></li>
+                  <li><a class="wow fadeInUp" href="#" data-filter=".music" data-wow-delay="0.5s">Live Music</a></li>
+                  <li><a class="wow fadeInUp" href="#" data-filter=".art" data-wow-delay="0.5s">Art</a></li>
+                  <li><a class="wow fadeInUp" href="#" data-filter=".theatre" data-wow-delay="0.5s">Theatre</a></li>
                 </ul>
               </div>
             </div>
           </div>
           <ul class="works-grid works-hover-w works-grid-4" id="works-grid">
-            <li class="work-item illustration webdesign"><a href="portfolio_single_featured_image1.html">
-                <div class="work-image"><img src="assets/images/portfolio/grid-portfolio1.jpg" alt="Portfolio Item"/></div>
+            <li class="work-item garden historic art"><a onclick="showContent('_thomas')">
+                <div class="work-image"><img src="assets/images/thingsToDo/thomas_center_thumb.jpg" alt="Attraction"/></div>
                 <div class="work-caption font-alt">
-                  <h3 class="work-title">Corporate Identity</h3>
-                  <div class="work-descr">Illustration</div>
+                  <h3 class="work-title">Thomas Center</h3>
+                  <div class="work-descr">Historic Duckpond Building</div>
                 </div></a></li>
-            <li class="work-item marketing photography"><a href="portfolio_single_featured_image2.html">
-                <div class="work-image"><img src="assets/images/portfolio/grid-portfolio2.jpg" alt="Portfolio Item"/></div>
+            <li class="work-item park"><a onclick="showContent('_paynes')">
+                <div class="work-image"><img src="assets/images/thingsToDo/paynes_prairie_thumb.jpg" alt="Attraction"/></div>
                 <div class="work-caption font-alt">
-                  <h3 class="work-title">Bag MockUp</h3>
-                  <div class="work-descr">Marketing</div>
+                  <h3 class="work-title">Paynes Prairie</h3>
+                  <div class="work-descr">Enormous Nature Preserve</div>
                 </div></a></li>
-            <li class="work-item illustration photography"><a href="portfolio_single_featured_slider1.html">
-                <div class="work-image"><img src="assets/images/portfolio/grid-portfolio3.jpg" alt="Portfolio Item"/></div>
+            <li class="work-item drinks historic music art theatre"><a onclick="showContent('_hippo')">
+                <div class="work-image"><img src="assets/images/thingsToDo/hippodrome_theatre_thumb.jpg" alt="Attraction"/></div>
                 <div class="work-caption font-alt">
-                  <h3 class="work-title">Disk Cover</h3>
-                  <div class="work-descr">Illustration</div>
+                  <h3 class="work-title">Hippodrome State Theatre</h3>
+                  <div class="work-descr">Live Stage Productions and Movies</div>
                 </div></a></li>
-            <li class="work-item marketing photography"><a href="portfolio_single_featured_slider2.htmll">
-                <div class="work-image"><img src="assets/images/portfolio/grid-portfolio4.jpg" alt="Portfolio Item"/></div>
+            <li class="work-item park"><a onclick="showContent('_alfred')">
+                <div class="work-image"><img src="assets/images/thingsToDo/alfred_ring_thumb.jpg" alt="Attraction"/></div>
                 <div class="work-caption font-alt">
-                  <h3 class="work-title">Business Card</h3>
-                  <div class="work-descr">Photography</div>
+                  <h3 class="work-title">Alfed A. Ring Park</h3>
+                  <div class="work-descr">Beautiful Park With Trails to Hike</div>
                 </div></a></li>
-            <li class="work-item illustration webdesign"><a href="portfolio_single_featured_video1.html">
-                <div class="work-image"><img src="assets/images/portfolio/grid-portfolio5.jpg" alt="Portfolio Item"/></div>
+            <li class="work-item music food"><a onclick="showContent('_bodiddley')">
+                <div class="work-image"><img src="assets/images/thingsToDo/bo_diddley_thumb.jpg" alt="Attraction"/></div>
                 <div class="work-caption font-alt">
-                  <h3 class="work-title">Web Design</h3>
-                  <div class="work-descr">Webdesign</div>
+                  <h3 class="work-title">Bo Diddley Plaza</h3>
+                  <div class="work-descr">Small Venue With Live Music</div>
                 </div></a></li>
-            <li class="work-item marketing webdesign"><a href="portfolio_single_featured_video2.html">
-                <div class="work-image"><img src="assets/images/portfolio/grid-portfolio6.jpg" alt="Portfolio Item"/></div>
+            <li class="work-item park food"><a onclick="showContent('_depot')">
+                <div class="work-image"><img src="assets/images/thingsToDo/depot_park_thumb.jpg" alt="Attraction"/></div>
                 <div class="work-caption font-alt">
-                  <h3 class="work-title">Paper clip</h3>
-                  <div class="work-descr">Marketing</div>
+                  <h3 class="work-title">Depot Park</h3>
+                  <div class="work-descr">Large Park With Playground For Kids</div>
                 </div></a></li>
-            <li class="work-item marketing webdesign"><a href="portfolio_single_featured_image1.html">
-                <div class="work-image"><img src="assets/images/portfolio/grid-portfolio7.jpg" alt="Portfolio Item"/></div>
+            <li class="work-item garden"><a onclick="showContent('_univ')">
+                <div class="work-image"><img src="assets/images/thingsToDo/university_gardens_thumb.jpg" alt="Attraction"/></div>
                 <div class="work-caption font-alt">
-                  <h3 class="work-title">New Product</h3>
-                  <div class="work-descr">Marketing</div>
+                  <h3 class="work-title">University Gardens</h3>
+                  <div class="work-descr">Small Nature Trail On UF Campus</div>
                 </div></a></li>
-            <li class="work-item illustration webdesign"><a href="portfolio_single_featured_image2.html">
-                <div class="work-image"><img src="assets/images/portfolio/grid-portfolio8.jpg" alt="Portfolio Item"/></div>
+            <li class="work-item park"><a onclick="showContent('_westside')">
+                <div class="work-image"><img src="assets/images/thingsToDo/westside_park_thumb.jpg" alt="Attraction"/></div>
                 <div class="work-caption font-alt">
-                  <h3 class="work-title">Branding</h3>
-                  <div class="work-descr">Illustration</div>
+                  <h3 class="work-title">Westside Park</h3>
+                  <div class="work-descr">Medium Sized Park With Lots to Do</div>
                 </div></a></li>
+            
           </ul>
-        </section>
-		
-		<hr class="divider-w">
-		
-        <div class="module-small bg-dark">
-          <div class="container">
-            <div class="row">
-              <div class="col-sm-3">
-                <div class="widget">
-                  <h5 class="widget-title font-alt">About Titan</h5>
-                  <p>The languages only differ in their grammar, their pronunciation and their most common words.</p>
-                  <p>Phone: +1 234 567 89 10</p>Fax: +1 234 567 89 10
-                  <p>Email:<a href="#">somecompany@example.com</a></p>
-                </div>
-              </div>
-              <div class="col-sm-3">
-                <div class="widget">
-                  <h5 class="widget-title font-alt">Recent Comments</h5>
-                  <ul class="icon-list">
-                    <li>Maria on <a href="#">Designer Desk Essentials</a></li>
-                    <li>John on <a href="#">Realistic Business Card Mockup</a></li>
-                    <li>Andy on <a href="#">Eco bag Mockup</a></li>
-                    <li>Jack on <a href="#">Bottle Mockup</a></li>
-                    <li>Mark on <a href="#">Our trip to the Alps</a></li>
-                  </ul>
-                </div>
-              </div>
-              <div class="col-sm-3">
-                <div class="widget">
-                  <h5 class="widget-title font-alt">Blog Categories</h5>
-                  <ul class="icon-list">
-                    <li><a href="#">Photography - 7</a></li>
-                    <li><a href="#">Web Design - 3</a></li>
-                    <li><a href="#">Illustration - 12</a></li>
-                    <li><a href="#">Marketing - 1</a></li>
-                    <li><a href="#">Wordpress - 16</a></li>
-                  </ul>
-                </div>
-              </div>
-              <div class="col-sm-3">
-                <div class="widget">
-                  <h5 class="widget-title font-alt">Popular Posts</h5>
-                  <ul class="widget-posts">
-                    <li class="clearfix">
-                      <div class="widget-posts-image"><a href="#"><img src="assets/images/rp-1.jpg" alt="Post Thumbnail"/></a></div>
-                      <div class="widget-posts-body">
-                        <div class="widget-posts-title"><a href="#">Designer Desk Essentials</a></div>
-                        <div class="widget-posts-meta">23 january</div>
-                      </div>
-                    </li>
-                    <li class="clearfix">
-                      <div class="widget-posts-image"><a href="#"><img src="assets/images/rp-2.jpg" alt="Post Thumbnail"/></a></div>
-                      <div class="widget-posts-body">
-                        <div class="widget-posts-title"><a href="#">Realistic Business Card Mockup</a></div>
-                        <div class="widget-posts-meta">15 February</div>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
+        <div class="cb content_thomas">
+          <a onclick="hideContent()">Hello there thomas center.</a>
+        </div>
+        <div class="cb content_paynes">
+          <a onclick="hideContent()">Hello there paynes prairie.</a>
+        </div>
+        </section>
+        <script>
+        function showContent(cid) {
+          $(".rwi").animate({opacity: 0}, 500, function() {
+            $(".rwi").hide();
+            $(".content" + String(cid)).show();
+            $(".content" + String(cid)).animate({opacity: 1.0}, 500, function() {});
+          });
+        }
+        function hideContent() {
+          $(".cb").animate({opacity: 0}, 500, function() {
+            $(".cb").hide();
+            $(".rwi").show();
+            $(".rwi").animate({opacity: 1.0}, 500, function() {});
+          });
+        }
+        </script>
+		
         <hr class="divider-d">
         <footer class="footer bg-dark">
           <div class="container">
             <div class="row">
               <div class="col-sm-6">
-                <p class="copyright font-alt">&copy; 2017&nbsp;<a href="index.html">TitaN</a>, All Rights Reserved</p>
+                <p class="copyright font-alt">(352)373-7368</p>
               </div>
               <div class="col-sm-6">
                 <div class="footer-social-links"><a href="#"><i class="fa fa-facebook"></i></a><a href="#"><i class="fa fa-twitter"></i></a><a href="#"><i class="fa fa-dribbble"></i></a><a href="#"><i class="fa fa-skype"></i></a>

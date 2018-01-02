@@ -215,6 +215,7 @@ a,
 .divider-w {
   border-top: 1px solid #eaeaea;
   margin: 0;
+  clear: left;
 }
 
 .divider-d {
@@ -1870,6 +1871,12 @@ Google map
 }
 
 /* Portfolio grid */
+
+.cb {
+  opacity: 0; 
+  display: none;
+}
+
 .works-grid {
   list-style: none;
   padding: 0;
@@ -2709,7 +2716,6 @@ Google map
 --------------------------------------------------------------*/
 @media (min-width: 768px) {
   .navbar-transparent {
-    background: transparent;
     padding-bottom: 15px;
     padding-top: 15px;
   }
