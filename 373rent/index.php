@@ -77,7 +77,7 @@
                 <!--<ul class="dropdown-menu">
                 </ul>-->
               </li>
-              <li><a href="documentation.html#contact" style="color:white">Request a Tour</a>
+              <li><a href="contact.php" style="color:white">Request a Tour</a>
               </li>
             </ul>
           </div>
@@ -143,7 +143,7 @@
             
           </div>
           <ul class="works-grid works-hover-w works-grid-3">
-            <li class="work-item illustration webdesign"><a href="rentals.html"></a>
+            <li class="work-item illustration webdesign"><a href="rental.php">
                 <div class="work-image"><img src="assets/images/portfolio/grid-portfolio1.jpg" alt="Portfolio Item"/></div>
                 <div class="work-caption font-alt">
                   <h3 class="work-title">Corporate Identity</h3>
@@ -230,7 +230,7 @@
           <?php
             if($connected) {
               $sql = "SELECT id, name, description, maplink, weblink, cover FROM extralist ORDER BY name";
-              $mainResults = $conn->query($sql);
+              $result = $conn->query($sql);
 
               echo "<ul class=\"works-grid works-hover-w works-grid-4\" id=\"works-grid\">";
 
@@ -244,7 +244,7 @@
                   if($sub_res->num_rows > 0) {
                     while($sub_row = $sub_res->fetch_assoc()) {
                       $sub_cat = str_replace(" ", "", $sub_row["type"]);
-                      $disp = $disp . " " + $sub_cat;
+                      $disp = $disp . " " . $sub_cat;
                     }
                   }
 
