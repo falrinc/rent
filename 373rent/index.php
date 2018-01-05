@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-US" dir="ltr">
   <head>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -183,6 +184,20 @@
 		
 		<hr class="divider-w">
 
+    <?php
+    $username = "root";
+    $password = "password";
+    $hostname = "localhost";
+    $dbname = "aptinfo";
+    $connected = TRUE;
+
+    $conn = new mysqli($hostname, $username, $password, $dbname);
+
+    if ($conn->connect_error) {
+      $connected = FALSE;
+    }
+    ?>
+
 		
         <section class="module pb-0" id="thingsToDo">
       <h2 class="module-title font-alt" >Food & Entertainment in the Area</h2>
@@ -192,69 +207,64 @@
               <div class="col-sm-12" >
                 <ul class="filter font-alt" id="filters" >
                   <li><a class="current wow fadeInUp" href="#" data-filter="*">All</a></li>
-                  <li><a class="wow fadeInUp" href="#" data-filter=".park" data-wow-delay="0.5s">Parks</a></li>
-                  <li><a class="wow fadeInUp" href="#" data-filter=".garden" data-wow-delay="0.5s">Gardens</a></li>
-                  <li><a class="wow fadeInUp" href="#" data-filter=".historic" data-wow-delay="0.5s">Historic Attractions</a></li>
-                  <li><a class="wow fadeInUp" href="#" data-filter=".food" data-wow-delay="0.5s">Food</a></li>
-                  <li><a class="wow fadeInUp" href="#" data-filter=".drinks" data-wow-delay="0.5s">Drinks</a></li>
-                  <li><a class="wow fadeInUp" href="#" data-filter=".music" data-wow-delay="0.5s">Live Music</a></li>
-                  <li><a class="wow fadeInUp" href="#" data-filter=".art" data-wow-delay="0.5s">Art</a></li>
-                  <li><a class="wow fadeInUp" href="#" data-filter=".theatre" data-wow-delay="0.5s">Theatre</a></li>
+
+                  <?php
+                  if($connected) {
+                    $sql = "SELECT DISTINCT type FROM categories ORDER BY type";
+                    $result = $conn->query($sql);
+                    $num = 0.1;
+
+                    if ($result->num_rows > 0) {
+                      while($row = $result->fetch_assoc()) {
+                        $catShort = str_replace(" ", "", $row["type"]);
+                        echo "<li><a class='wow fadeInUp' href='#' data-filter='." . $catShort . "' data-wow-delay='" . $num . "s'>" . $row["type"] . "</a></li>";
+                        $num += 0.1;
+                      }
+                    }
+                  }
+                  ?>
                 </ul>
               </div>
             </div>
           </div>
-          <ul class="works-grid works-hover-w works-grid-4" id="works-grid">
-            <li class="work-item park"><a onclick="showContent('_alfred')">
-                <div class="work-image"><img src="assets/images/thingsToDo/alfred_ring_thumb.jpg" alt="Attraction"/></div>
-                <div class="work-caption font-alt">
-                  <h3 class="work-title">Alfed A. Ring Park</h3>
-                  <div class="work-descr">Beautiful Park With Trails to Hike</div>
-                </div></a></li>
-            <li class="work-item music food"><a onclick="showContent('_bodiddley')">
-                <div class="work-image"><img src="assets/images/thingsToDo/bo_diddley_thumb.jpg" alt="Attraction"/></div>
-                <div class="work-caption font-alt">
-                  <h3 class="work-title">Bo Diddley Plaza</h3>
-                  <div class="work-descr">Small Venue With Live Music</div>
-                </div></a></li>
-            <li class="work-item park food"><a onclick="showContent('_depot')">
-                <div class="work-image"><img src="assets/images/thingsToDo/depot_park_thumb.jpg" alt="Attraction"/></div>
-                <div class="work-caption font-alt">
-                  <h3 class="work-title">Depot Park</h3>
-                  <div class="work-descr">Large Park Downtown</div>
-                </div></a></li>
-            <li class="work-item drinks historic music art theatre"><a onclick="showContent('_hippo')">
-                <div class="work-image"><img src="assets/images/thingsToDo/hippodrome_theatre_thumb.jpg" alt="Attraction"/></div>
-                <div class="work-caption font-alt">
-                  <h3 class="work-title">Hippodrome State Theatre</h3>
-                  <div class="work-descr">Live Stage Productions and Movies</div>
-                </div></a></li>
-            <li class="work-item park"><a onclick="showContent('_paynes')">
-                <div class="work-image"><img src="assets/images/thingsToDo/paynes_prairie_thumb.jpg" alt="Attraction"/></div>
-                <div class="work-caption font-alt">
-                  <h3 class="work-title">Paynes Prairie</h3>
-                  <div class="work-descr">Enormous Nature Preserve</div>
-                </div></a></li>
-            <li class="work-item garden historic art"><a onclick="showContent('_thomas')">
-                <div class="work-image"><img src="assets/images/thingsToDo/thomas_center_thumb.jpg" alt="Attraction"/></div>
-                <div class="work-caption font-alt">
-                  <h3 class="work-title">Thomas Center</h3>
-                  <div class="work-descr">Historic Duckpond Building</div>
-                </div></a></li>
-            <li class="work-item garden"><a onclick="showContent('_univ')">
-                <div class="work-image"><img src="assets/images/thingsToDo/university_gardens_thumb.jpg" alt="Attraction"/></div>
-                <div class="work-caption font-alt">
-                  <h3 class="work-title">University Gardens</h3>
-                  <div class="work-descr">Small Nature Trail On UF Campus</div>
-                </div></a></li>
-            <li class="work-item park"><a onclick="showContent('_westside')">
-                <div class="work-image"><img src="assets/images/thingsToDo/westside_park_thumb.jpg" alt="Attraction"/></div>
-                <div class="work-caption font-alt">
-                  <h3 class="work-title">Westside Park</h3>
-                  <div class="work-descr">Quiet Park With Plenty To Do</div>
-                </div></a></li>
-          </ul>
-        </div>
+          <?php
+            if($connected) {
+              $sql = "SELECT id, name, description, maplink, weblink, cover FROM extralist ORDER BY name";
+              $mainResults = $conn->query($sql);
+
+              echo "<ul class='works-grid works-hover-w works-grid-4' id='works-grid'>";
+
+              if ($result->num_rows > 0) {
+                while($row = $result->fetch_assoc()) {
+                  $sub_sql = "SELECT type FROM categories WHERE id='" . $row["id"] . "' ORDER BY type";
+                  $sub_res = $conn->query($sub_sql);
+
+                  $disp = "<li class='work-item";
+
+                  if($sub_res->num_rows > 0) {
+                    while($sub_row = $sub_res->fetch_assoc()) {
+                      $sub_cat = str_replace(" ", "", $sub_row["type"]);
+                      $disp = $disp . " " + $sub_cat;
+                    }
+                  }
+
+                  echo $disp . "'><a onclick='showContent('_" . $row["id"] . "')'>";
+                  echo "<div class='work-image'><img src='" . $row["cover"] . "' alt='Attraction'/></div>";
+                  echo "<div class='work-caption font-alt'>";
+                  echo "<h3 class='work-title'>" . $row["name"] . "</h3>";
+                  //echo "<div class='work-descr'>Something</div>";
+                  echo "</div></a></li>";
+                }
+
+                $result->data_seek(0);
+                echo "</ul></div>";
+
+                while($row = $result->fetch_assoc()) {
+                  
+                }
+              }
+            }
+          ?>
         <div class="cb content_thomas">
           <div class="sb slideBox_thomas">
             <img class="slide_thomas" src="assets/images/thingsToDo/thomas_center_thumb.jpg" />
