@@ -67,15 +67,11 @@
           </div>
           <div class="collapse navbar-collapse" id="custom-collapse">
             <ul class="nav navbar-nav navbar-right">
-              <li class="dropdown"><a href="#home">Home</a>
+              <li><a href="#home">Home</a>
               </li>
-              <li class="dropdown"><a href="#rentals">Available Units</a>
-                <!--<ul class="dropdown-menu">
-                </ul>-->
+              <li class="dropdown"><a href="#rentals">Rental Units</a>
               </li>
-              <li class="dropdown"><a href="#thingsToDo">Things To Do</a>
-                <!--<ul class="dropdown-menu">
-                </ul>-->
+              <li><a href="#thingsToDo">Things To Do</a>
               </li>
               <li><a href="contact.php" style="color:white">Request a Tour</a>
               </li>
@@ -83,106 +79,6 @@
           </div>
         </div>
       </nav>
-	  
-	  <!-- Start of home page-->
-	  <!-- Home section -->
-      <section class="home-section home-full-height photography-page" id="home">
-        <div class="hero-slider">
-          <ul class="slides">
-            <li class="bg-dark" style="background-image:url(&quot;assets/images/photography/image6.jpg&quot;);">
-              <div class="container">
-                <div class="image-caption">
-                  <div class="font-alt caption-text"></div>
-                </div>
-              </div>
-            </li>
-            <li class="bg-dark" style="background-image:url(&quot;assets/images/photography/image1.jpg&quot;);">
-              <div class="container">
-                <div class="image-caption">
-                  <div class="font-alt caption-text">Image 1 caption</div>
-                </div>
-              </div>
-            </li>
-            <li class="bg-dark" style="background-image:url(&quot;assets/images/photography/image2.jpg&quot;);">
-              <div class="container">
-                <div class="image-caption">
-                  <div class="font-alt caption-text">Image 2 caption</div>
-                </div>
-              </div>
-            </li>
-            <li class="bg-dark" style="background-image:url(&quot;assets/images/photography/image3.jpg&quot;);">
-              <div class="container">
-                <div class="image-caption">
-                  <div class="font-alt caption-text">Image 3 caption</div>
-                </div>
-              </div>
-            </li>
-            <li class="bg-dark" style="background-image:url(&quot;assets/images/photography/image4.jpg&quot;);">
-              <div class="container">
-                <div class="image-caption">
-                  <div class="font-alt caption-text">Image 4 caption</div>
-                </div>
-              </div>
-            </li>
-            <li class="bg-dark" style="background-image:url(&quot;assets/images/photography/image5.jpg&quot;);">
-              <div class="container">
-                <div class="image-caption">
-                  <div class="font-alt caption-text">Image 5 caption</div>
-                </div>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </section>
-      <div class="main">
-	  
-       <!-- Start of Available Rentals -->
-        <section class="module pb-0" id="rentals">
-          <div class="container">
-		  <h2 class="module-title font-alt">Available Units</h2>
-            
-          </div>
-          <ul class="works-grid works-hover-w works-grid-3">
-            <li class="work-item illustration webdesign"><a href="rental.php">
-                <div class="work-image"><img src="assets/images/portfolio/grid-portfolio1.jpg" alt="Portfolio Item"/></div>
-                <div class="work-caption font-alt">
-                  <h3 class="work-title">Corporate Identity</h3>
-                  <div class="work-descr">Illustration</div>
-                </div></a></li>
-            <li class="work-item marketing photography"><a href="portfolio_single_featured_image2.html">
-                <div class="work-image"><img src="assets/images/portfolio/grid-portfolio2.jpg" alt="Portfolio Item"/></div>
-                <div class="work-caption font-alt">
-                  <h3 class="work-title">Bag MockUp</h3>
-                  <div class="work-descr">Marketing</div>
-                </div></a></li>
-            <li class="work-item illustration photography"><a href="portfolio_single_featured_slider1.html">
-                <div class="work-image"><img src="assets/images/portfolio/grid-portfolio3.jpg" alt="Portfolio Item"/></div>
-                <div class="work-caption font-alt">
-                  <h3 class="work-title">Disk Cover</h3>
-                  <div class="work-descr">Illustration</div>
-                </div></a></li>
-            <li class="work-item marketing photography"><a href="portfolio_single_featured_slider2.htmll">
-                <div class="work-image"><img src="assets/images/portfolio/grid-portfolio4.jpg" alt="Portfolio Item"/></div>
-                <div class="work-caption font-alt">
-                  <h3 class="work-title">Business Card</h3>
-                  <div class="work-descr">Photography</div>
-                </div></a></li>
-            <li class="work-item illustration webdesign"><a href="portfolio_single_featured_video1.html">
-                <div class="work-image"><img src="assets/images/portfolio/grid-portfolio5.jpg" alt="Portfolio Item"/></div>
-                <div class="work-caption font-alt">
-                  <h3 class="work-title">Web Design</h3>
-                  <div class="work-descr">Webdesign</div>
-                </div></a></li>
-            <li class="work-item marketing webdesign"><a href="portfolio_single_featured_video2.html">
-                <div class="work-image"><img src="assets/images/portfolio/grid-portfolio6.jpg" alt="Portfolio Item"/></div>
-                <div class="work-caption font-alt">
-                  <h3 class="work-title">Paper clip</h3>
-                  <div class="work-descr">Marketing</div>
-                </div></a></li>
-          </ul>
-        </section>
-		
-		<hr class="divider-w">
 
     <?php
     $username = "root";
@@ -197,8 +93,93 @@
       $connected = FALSE;
     }
     ?>
+	  
+	  <!-- Start of home page-->
+	  <!-- Home section -->
+      <section class="home-section home-full-height photography-page" id="home">
+        <div class="hero-slider">
+          <ul class="slides">
 
+          <?php
+          if($connected) {
+            $sql = "SELECT src, caption FROM coverphotos ORDER BY id";
+            $result = $conn->query($sql);
+
+            if ($result->num_rows > 0) {
+              while($row = $result->fetch_assoc()) {
+                echo "<li class=\"bg-dark\" style=\"background-image:url('" . $row["src"] . "');\">";
+                echo "<div class=\"container\">";
+                echo "<div class=\"image-caption\">";
+                echo "<div class=\"font-alt caption-text\">";
+                if(!is_null($row["caption"])) echo $row["caption"];
+                echo "</div></div></div></li>";
+              }
+            }
+          }
+          ?>
+
+          </ul>
+        </div>
+      </section>
+      <div class="main">
+	  
+       <!-- Start of Available Rentals -->
+        <section class="module pb-0" id="rentals">
+          <div class="container">
+		        <h2 class="module-title font-alt">Rental Units</h2>
+          </div>
+
+          <?php
+          if($connected) {
+            $sql = "SELECT id, name, available, price, cover FROM aptlist ORDER BY price DESC";
+            $fullApts = $conn->query($sql);
+            $sql = "SELECT DISTINCT type FROM amenities ORDER BY type";
+            $amens = $conn->query($sql);
+
+          ?>
+
+          <div class="aptFilters" id="aptFilters">
+            <div class="checkRow lrg">
+              <div class="checkBox" id="AvailableNow" onclick="toggleChecked('AvailableNow')"></div>
+              <p>Available Now</p>
+            </div>
+            <?php
+            if ($amens->num_rows > 0) {
+              while($row = $amens->fetch_assoc()) {
+                $amenShort = str_replace(" ", "", $row["type"]);
+                echo "<div class=\"checkRow sml\">";
+                echo "<div class=\"checkBox\" id=\"" . $amenShort . "\" onclick=\"toggleChecked('" . $amenShort . "')\"></div>";
+                echo "<p>" . $row["type"] . "</p>";
+                echo "</div>";
+              }
+            }
+            ?>
+          </div>
+          <div class="aptList" id="aptList">
+            <h1>hey</h1>
+            <h1>hey</h1>
+            <h1>hey</h1>
+            <h1>hey</h1>
+            <h1>hey</h1>
+            <h1>hey</h1>
+            <h1>hey</h1>
+            <h1>hey</h1>
+            <h1>hey</h1>
+            <h1>hey</h1>
+            <h1>hey</h1>
+            <h1>hey</h1>
+            <h1>hey</h1>
+            <h1>hey</h1>
+          </div>
+          <script>
+            document.getElementById('aptList').style.height = document.getElementById('aptFilters').offsetHeight + "px";
+          </script>
+          <?php
+          }
+          ?>
+        </section>
 		
+		<hr class="divider-w">
         <section class="module pb-0" id="thingsToDo">
       <h2 class="module-title font-alt" >Food & Entertainment in the Area</h2>
         <div class="rwi">

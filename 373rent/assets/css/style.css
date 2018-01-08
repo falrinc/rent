@@ -2,6 +2,84 @@
 	Common
 --------------------------------------------------------------*/
 
+.aptFilters {
+  float:left;
+  margin-left:5%;
+  width:55%;
+  min-height: 500px;
+}
+
+.checkRow p {
+  font-weight:lighter;
+}
+
+.checkRow {
+  position:relative;
+}
+
+.checkRow.lrg {
+  margin-bottom:40px;
+  width:256px;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.checkRow.sml {
+  margin-bottom:28px;
+  margin-right:10px;
+  float:left;
+  width:220px;
+}
+
+.checkRow.lrg .checkBox {
+  width:40px;
+  height:40px;
+  border:2px solid rgb(166,166,166);
+  background-color:rgb(222,222,222);
+  border-radius:8px;
+}
+
+.checkRow.sml .checkBox {
+  width:28px;
+  height:28px;
+  border:1px solid rgb(166,166,166);
+  background-color:rgb(222,222,222);
+  border-radius:6px;
+}
+
+.checkRow.lrg p {
+  font-size:28px;
+  position:absolute;
+  top:-6px;
+  left:48px;
+}
+
+.checkRow.sml p {
+  font-size:18px;
+  position:absolute;
+  top:-2px;
+  left:34px;
+}
+
+.aptList {
+  float:left;
+  width:35%;
+  margin-right:5%;
+  overflow-y: auto;
+  border-top:2px solid rgb(166,166,166);
+  border-bottom:2px solid rgb(166,166,166);
+}
+
+.aptList::-webkit-scrollbar {
+    width: 0.5em;
+}
+ 
+.aptList::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
+  border-radius: 4px;
+}
+
 .cb {
   width:auto;
   margin-left:16px;
@@ -308,7 +386,6 @@ a,
 }
 
 .holder-w:before {
-  border-top: 1px solid #eaeaea;
   position: relative;
   display: block;
   content: "";
@@ -319,7 +396,6 @@ a,
 
 /* Sections dividers */
 .divider-w {
-  border-top: 1px solid #eaeaea;
   margin: 0;
   clear: left;
 }
