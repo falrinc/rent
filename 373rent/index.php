@@ -179,7 +179,7 @@
           ?>
         </section>
 		
-		<hr class="divider-w">
+		<div style="height:500px"></div>
         <section class="module pb-0" id="thingsToDo">
       <h2 class="module-title font-alt" >Food & Entertainment in the Area</h2>
         <div class="rwi">
