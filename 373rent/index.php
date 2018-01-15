@@ -148,7 +148,7 @@
               while($row = $amens->fetch_assoc()) {
                 $amenShort = str_replace(" ", "", $row["type"]);
                 echo "<div class=\"checkRow sml\">";
-                echo "<div class=\"checkBox\" id=\"" . $amenShort . "\" onclick=\"toggleChecked('" . $amenShort . "')\"></div>";
+                echo "<div class=\"checkBox unselectable\" id=\"" . $amenShort . "\" onclick=\"toggleChecked('" . $amenShort . "')\"></div>";
                 echo "<p>" . $row["type"] . "</p>";
                 echo "</div>";
               }
@@ -266,6 +266,18 @@
         <script>
 
         curSlide = 0;
+
+        function toggleChecked(checkName) {
+          sid = ("#" + checkName).replace(".", "\\.");
+          
+          if($(sid).data("checked")) {
+            $(sid).data("checked", "");
+            $(sid).html("");
+          } else {
+            $(sid).data("checked", "1");
+            $(sid).html("X");
+          }
+        }
 
         function showSlides(ext, off) {
           if(off == 0) {
