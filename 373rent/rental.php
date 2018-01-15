@@ -49,9 +49,17 @@
     <link href="assets/lib/owl.carousel/dist/assets/owl.theme.default.min.css" rel="stylesheet">
     <link href="assets/lib/magnific-popup/dist/magnific-popup.css" rel="stylesheet">
     <link href="assets/lib/simple-text-rotator/simpletextrotator.css" rel="stylesheet">
+	
+	<!-- Custom CSS #WHL-->
+    <link href="assets/css/scrolling-nav.css" rel="stylesheet">
+	
     <!-- Main stylesheet and color file-->
     <link href="assets/css/style.css" rel="stylesheet">
     <link id="color-scheme" href="assets/css/colors/default.css" rel="stylesheet">
+	
+	<!-- Font Awesome CDN #WHL-->
+	<script defer src="https://use.fontawesome.com/releases/v5.0.3/js/all.js"></script>
+	
   </head>
   <body data-spy="scroll" data-target=".onpage-navigation" data-offset="60">
     <main>
@@ -356,20 +364,24 @@
         </div>
       </nav>
       <div class="main">
+	  
         <section class="module">
           <div class="container">
             <div class="row">
-              <div class="col-sm-6 mb-sm-40"><a class="gallery" href="assets/images/shop/product-7.jpg"><img src="assets/images/shop/product-7.jpg" alt="Single Product Image"/></a>
-                <ul class="product-gallery">
-                  <li><a class="gallery" href="assets/images/shop/product-8.jpg"></a><img src="assets/images/shop/product-8.jpg" alt="Single Product"/></li>
-                  <li><a class="gallery" href="assets/images/shop/product-9.jpg"></a><img src="assets/images/shop/product-9.jpg" alt="Single Product"/></li>
-                  <li><a class="gallery" href="assets/images/shop/product-10.jpg"></a><img src="assets/images/shop/product-10.jpg" alt="Single Product"/></li>			 
-                </ul>
-				 
+               <div class="col-sm-2 col-md-4 col-lg-6">
+                <div class="post-images-slider">
+                  <ul class="slides">
+                    <li><img class="center-block" src="assets/images/shop/product-8.jpg" alt="Slider Image"/></li>
+                    <li><img class="center-block" src="assets/images/shop/product-9.jpg" alt="Slider Image"/></li>
+                    <li><img class="center-block" src="assets/images/shop/product-10.jpg" alt="Slider Image"/></li>
+					<li><img class="center-block" src="assets/images/shop/product-10.jpg" alt="Slider Image"/></li>
+					<li><img class="center-block" src="assets/images/shop/product-10.jpg" alt="Slider Image"/></li>
+                  </ul>
+                </div>
               </div>
 			  
 			 
-			  
+			  <div class="map"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3467.15289661699!2d-82.32553334936868!3d29.65733728193665!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88e8a3f53373e5af%3A0x19c942e7b1b9a460!2s618+NE+2nd+St%2C+Gainesville%2C+FL+32601!5e0!3m2!1sen!2sus!4v1515606520828" width="500" height="225" frameborder="0" style="border:0" allowfullscreen></iframe></div>
 			  
               <div class="col-sm-6">
                 <div class="row">
@@ -377,16 +389,29 @@
                     <h1 class="product-title font-alt">373-Rent</h1>
                   </div>
                 </div>
-                <!--<div class="row mb-20">
-                  <div class="col-sm-12"><span><i class="fa fa-star star"></i></span><span><i class="fa fa-star star"></i></span><span><i class="fa fa-star star"></i></span><span><i class="fa fa-star star"></i></span><span><i class="fa fa-star star-off"></i></span><a class="open-tab section-scroll" href="#reviews"></a>
-                  </div>
-                </div>-->
+                
                 <div class="row mb-20">
                   <div class="col-sm-12">
-                    <div class="price font-alt"><span class="amount"></span></div>
+                    <div class="price font-alt"><span class="amount">Address</span></div>
                   </div>
                 </div>
-				 
+				
+				<div class="row mb-20">
+                  <div class="col-sm-12">
+                    <div class="price font-alt"><span class="amount">Rent per month</span></div>
+                  </div>
+                </div>
+				
+				<div class="layout">
+					<h4><i class="fas fa-bed"></i>&nbsp;1 Bed</h4>
+					<h4><i class="fas fa-bath"></i>&nbsp;1 Bath</h4>
+					<h4><i class="fas fa-home"></i>&nbsp;600 Sq Ft</h4>
+					<h4><i class="fas fa-paw"></i>&nbsp;Pet Friendly</h4>
+										
+				</div>
+				
+				
+				
                 <!--<div class="row mb-20">
                   <div class="col-sm-12">
                     <div class="description">
@@ -408,49 +433,73 @@
                 </div>
               </div>
             </div>-->
+			<div>
+					<a class="btn btn-default page-scroll" href="#scrolldown" >Amenities & More</a>
+				</div>
+				<div id="scrolldown"></div>
+			</section>
 			
-			<div class="map"><iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d13090.788202995565!2d-82.31803298138072!3d29.65301642417163!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1514478379861" width="500" height="325" frameborder="0" style="border:0" allowfullscreen></iframe></iframe></div>
+				
 			
+			<section  id="apt-info" data-target="#scrolldown" data-spy="scroll">	
 			
             <div class="row mt-70">
               <div class="col-sm-12">
                 <ul class="nav nav-tabs font-alt" role="tablist">
-                  <li class="active"><a href="#description" data-toggle="tab"><span class="icon-tools-2"></span>Description</a></li>
-                  <li><a href="#data-sheet" data-toggle="tab"><span class="icon-tools-2"></span>Data sheet</a></li>
+				  <li class="active"><a href="#data-sheet" data-toggle="tab">Amenities</a></li>
+                  <li><a href="#description" data-toggle="tab">Description</a></li>
                   
                 </ul>
+				
                 <div class="tab-content">
-                  <div class="tab-pane active" id="description">
-                    <p>Everyone realizes why a new common language would be desirable: one could refuse to pay expensive translators. To achieve this, it would be necessary to have uniform grammar, pronunciation and more common words. If several languages coalesce, the grammar of the resulting language is more simple and regular than that of the individual languages.</p>
-                    <p>The European languages are members of the same family. Their separate existence is a myth. For science, music, sport, etc, Europe uses the same vocabulary. The languages only differ in their grammar, their pronunciation and their most common words.</p>
-                  </div>
-                  <div class="tab-pane" id="data-sheet">
+                  
+                  <div class="tab-pane active" id="data-sheet">
                     <table class="table table-striped ds-table table-responsive">
                       <tbody>
-                        <tr>
-                          <th>Title</th>
-                          <th>Info</th>
+                        <tr>						  
+                          <td>Bedroom&nbsp;&nbsp;-&nbsp;&nbsp;1</td>
+						  <td>Pet Friendly</td>
+						  <td>Washer & Dryer</td>
                         </tr>
                         <tr>
-                          <td>Compositions</td>
-                          <td>Jeans</td>
+                           <td>Bathroom&nbsp;&nbsp;-&nbsp;&nbsp;1</td>
+						   <td>Wifi & Cable Ready</td>
+						   <td>Garbage/Recycling Pickup</td>
                         </tr>
                         <tr>
-                          <td>Size</td>
-                          <td>44, 46, 48</td>
-                        </tr>
-                        <tr>
-                          <td>Color</td>
+                          <td>Size&nbsp;&nbsp;-&nbsp;&nbsp;600 sq ft</td>
                           <td>Black</td>
+						  <td>d</td>						
                         </tr>
                         <tr>
                           <td>Brand</td>
                           <td>Somebrand</td>
+						  <td>Wifi & Cable Ready</td>
                         </tr>
+						<tr>
+                          <td>Brand</td>
+                          <td>Somebrand</td>
+						  <td>Wifi & Cable Ready</td>
+                        </tr>
+						<tr>
+                          <td>Brand</td>
+                          <td>Somebrand</td>
+						  <td>Wifi & Cable Ready</td>
+                        </tr>
+						<tr>
+                          <td>Brand</td>
+                          <td>Somebrand</td>
+						  <td>Wifi & Cable Ready</td>
+                        </tr>
+						
                       </tbody>
                     </table>
                   </div>
-                  <div class="tab-pane" id="reviews">
+				  <div class="tab-pane" id="description">
+                    <p>Everyone realizes why a new common language would be desirable: one could refuse to pay expensive translators. To achieve this, it would be necessary to have uniform grammar, pronunciation and more common words. If several languages coalesce, the grammar of the resulting language is more simple and regular than that of the individual languages.</p>
+                    <p>The European languages are members of the same family. Their separate existence is a myth. For science, music, sport, etc, Europe uses the same vocabulary. The languages only differ in their grammar, their pronunciation and their most common words.</p>
+                  </div>
+                  <!--<div class="tab-pane" id="reviews">
                     <div class="comments reviews">
                       <div class="comment clearfix">
                         <div class="comment-avatar"><img src="" alt="avatar"/></div>
@@ -474,8 +523,9 @@
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="comment-form mt-30">
+                    </div>-->
+					
+                    <!--<div class="comment-form mt-30">
                       <h4 class="comment-form-title font-alt">Add review</h4>
                       <form method="post">
                         <div class="row">
@@ -512,7 +562,8 @@
                             <button class="btn btn-round btn-d" type="submit">Submit Review</button>
                           </div>
                         </div>
-                      </form>
+                      </form>-->
+					  
                     </div>
                   </div>
                 </div>
@@ -736,6 +787,10 @@
     JavaScripts
     =============================================
     -->
+		<!-- Scrolling Nav JavaScript -->
+    <script src="assets/js/jquery.easing.min.js"></script>
+    <script src="assets/js/scrolling-nav.js"></script>
+	
     <script src="assets/lib/jquery/dist/jquery.js"></script>
     <script src="assets/lib/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="assets/lib/wow/dist/wow.js"></script>
@@ -749,5 +804,6 @@
     <script src="assets/lib/simple-text-rotator/jquery.simple-text-rotator.min.js"></script>
     <script src="assets/js/plugins.js"></script>
     <script src="assets/js/main.js"></script>
+
   </body>
 </html>

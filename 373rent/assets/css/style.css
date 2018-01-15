@@ -1,7 +1,20 @@
 /*--------------------------------------------------------------
 	Common
 --------------------------------------------------------------*/
+/* ALL ADDITIONAL STYLES THAT WERE ADDED BY WILLIAM LITTLE ARE COMMENTED WHL*/
+/*#WHL*/
+#apt-info {
+	margin: 0 20% 0 20%;
+	
+}
+/*#WHL*/
+.layout {
+	color: black;
+}
 
+	
+	
+	
 .aptFilters {
   float:left;
   margin-left:5%;
@@ -385,7 +398,7 @@ a,
 .module,
 .module-small {
   position: relative;
-  padding: 140px 0;
+  padding: 100px 0;
   background-repeat: no-repeat;
   background-position: 50% 50%;
   background-size: cover;
@@ -2509,7 +2522,8 @@ Google map
 
 /* Tabs */
 .tab-content .tab-pane {
-  padding: 20px 0;
+  padding: 30px 0;
+  
 }
 
 /* Accordion */
@@ -2806,8 +2820,9 @@ Google map
 }
 
 .product-title {
-  margin: 0 0 20px;
+  margin: 0 0 10px;
   color: #111;
+  font-weight: bold;
 }
 
 .star,
@@ -2821,8 +2836,10 @@ Google map
 }
 
 .amount {
-  font-size: 32px;
+  font-size: 22px;
   color: #111;
+  font-weight: bold;
+  
 }
 
 .reviews {
