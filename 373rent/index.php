@@ -55,7 +55,7 @@
     <link href="assets/css/style.css" rel="stylesheet">
     <link id="color-scheme" href="assets/css/colors/default.css" rel="stylesheet">
   </head>
-  <body data-spy="scroll" data-target=".onpage-navigation" data-offset="60">
+  <body data-spy="scroll" data-target=".onpage-navigation" data-offset="60" onload="loadScript()">
     <main>
       <div class="page-loader">
         <div class="loader">Loading...</div>
@@ -131,7 +131,7 @@
 
           <?php
           if($connected) {
-            $sql = "SELECT id, name, available, price, cover FROM aptlist ORDER BY price DESC";
+            $sql = "SELECT id, name, available, price, cover, bedroom, bathroom, sqfoot FROM aptlist ORDER BY price DESC";
             $fullApts = $conn->query($sql);
             $sql = "SELECT DISTINCT type FROM amenities ORDER BY type";
             $amens = $conn->query($sql);
@@ -140,7 +140,7 @@
 
           <div class="aptFilters" id="aptFilters">
             <div class="checkRow lrg">
-              <div class="checkBox" id="AvailableNow" onclick="toggleChecked('AvailableNow')"></div>
+              <div class="checkBox unselectable" id="AvailableNow" onclick="toggleChecked('AvailableNow')"></div>
               <p>Available Now</p>
             </div>
             <?php
@@ -156,20 +156,48 @@
             ?>
           </div>
           <div class="aptList" id="aptList">
-            <h1>hey</h1>
-            <h1>hey</h1>
-            <h1>hey</h1>
-            <h1>hey</h1>
-            <h1>hey</h1>
-            <h1>hey</h1>
-            <h1>hey</h1>
-            <h1>hey</h1>
-            <h1>hey</h1>
-            <h1>hey</h1>
-            <h1>hey</h1>
-            <h1>hey</h1>
-            <h1>hey</h1>
-            <h1>hey</h1>
+            <?php
+            if($fullApts->num_rows > 0) {
+              while($row = $fullApts->fetch_assoc()) {
+                echo "<a href=\"rental.php?id=" . $row["id"] . "\">";
+                echo "<div class=\"listBox";
+
+                $classList = "";
+
+                if(!is_null($row["available"])) {
+                  if(new DateTime($row["available"]) <= new DateTime()) {
+                    $classList = $classList . " AvailableNow";
+                  }
+                }
+
+                $innerSQL = "SELECT type FROM amenities WHERE id='" . $row["id"] . "'";
+                $sub_res = $conn->query($innerSQL);
+
+                if($sub_res->num_rows > 0) {
+                  while($sub_row = $sub_res->fetch_assoc()) {
+                    $catShort = str_replace(" ", "", $sub_row["type"]);
+                    $classList = $classList . " " . $catShort;
+                  }
+                }
+
+                echo $classList . "\">";
+                echo "<img src=\"" . $row["cover"] . "\" />";
+                echo "<div class=\"textContain\">";
+                echo "<p>" . $row["name"];
+
+                if(!is_null($row["price"])) echo " (<i><b>$" . $row["price"] . "</b> / Mo</i>)";
+
+                echo "</p>";
+                echo "<p><b>" . $row["bedroom"] . "</b> BEDROOM / <b>" . $row["bathroom"] . "</b> BATHROOM</p>";
+
+                if(!is_null($row["sqfoot"])) echo "<p><b>" . $row["sqfoot"] . "</b> SQ FEET</p>";
+
+                echo "</div>";
+                echo "<div class=\"overlay\"></div>";
+                echo "</div></a>";
+              }
+            }
+            ?>
           </div>
           <script>
             document.getElementById('aptList').style.height = document.getElementById('aptFilters').offsetHeight + "px";
@@ -267,6 +295,67 @@
 
         curSlide = 0;
 
+        function reloadAptlist() {
+          anyChecked = false;
+
+          $(".listBox").animate({opacity: 0}, 500);
+
+          setTimeout(function(){
+            $(".checkBox").each(function() {
+              if($(this).data("checked")) anyChecked = true;
+            });
+
+            if(!anyChecked) {
+              bgswitch = true;
+
+              $(".listBox").each(function() {
+                $(this).css("display", "block");
+                if(!$(this).hasClass("AvailableNow")) {
+                  $(this).find(".overlay").css("background", "rgba(255,255,255,0.8)");
+                } else {
+                  if(bgswitch) {
+                    $(this).css("background", "rgb(220,220,220)");
+                    bgswitch = false;
+                  } else {
+                    $(this).css("background", "rgb(195,195,195)");
+                    bgswitch = true;
+                  }
+                }
+              });
+            } else {
+              bgswitch = true;
+
+              $(".listBox").each(function() {
+                matchedAll = true;
+                pElem = $(this);
+
+                $(".checkBox").each(function() {
+                  if($(this).data("checked") && !pElem.hasClass($(this).attr("id"))) matchedAll = false;
+                });
+
+                if(matchedAll) {
+                  $(this).css("display", "block");
+                  if(!$(this).hasClass("AvailableNow")) {
+                    $(this).find(".overlay").css("background", "rgba(255,255,255,0.8)");
+                  } else {
+                    if(bgswitch) {
+                      $(this).css("background", "rgb(220,220,220)");
+                      bgswitch = false;
+                    } else {
+                      $(this).css("background", "rgb(195,195,195)");
+                      bgswitch = true;
+                    }
+                  }
+                } else {
+                  $(this).css("display", "none");
+                }
+              });
+            }
+          }, 500);
+
+          $(".listBox").animate({opacity: 1}, 500);
+        }
+
         function toggleChecked(checkName) {
           sid = ("#" + checkName).replace(".", "\\.");
           
@@ -277,6 +366,8 @@
             $(sid).data("checked", "1");
             $(sid).html("X");
           }
+
+          reloadAptlist();
         }
 
         function showSlides(ext, off) {
@@ -330,6 +421,10 @@
             $(".rwi").show();
             $(".rwi").animate({opacity: 1.0}, 500, function() {});
           });
+        }
+
+        function loadScript() {
+          reloadAptlist();
         }
         </script>
 		
