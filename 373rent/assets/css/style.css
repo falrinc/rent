@@ -19,7 +19,7 @@
   float:left;
   margin-left:5%;
   width:55%;
-  min-height: 500px;
+  min-height: 504px;
 }
 
 .checkRow p {
@@ -102,7 +102,7 @@
 }
 
 .listBox {
-  height:100px;
+  min-height:100px;
   width:100%;
   clear:left;
   position:relative;
@@ -111,14 +111,16 @@
 
 .listBox p {
   position:relative;
-  top:20px;
-  line-height:10px;
+  top:4px;
   font-size:24px;
+  margin: 0;
+  padding: 0;
 }
 
 .listBox p + p {
-  font-size:18px;
-  line-height:6px;
+  font-size:14px;
+  margin: 0;
+  padding: 0;
 }
 
 .listBox .overlay {

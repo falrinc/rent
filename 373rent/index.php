@@ -98,7 +98,7 @@
 	  <!-- Home section -->
       <section class="home-section home-full-height photography-page" id="home">
         <div class="hero-slider">
-          <ul class="slides">
+          <ul id="coverPhotos" class="slides">
 
           <?php
           if($connected) {
@@ -119,6 +119,9 @@
           ?>
 
           </ul>
+          <script>
+            document.getElementById('coverPhotos').innerHTML("<h1>Wacko</h1>");
+          </script>
         </div>
       </section>
       <div class="main">
@@ -199,9 +202,6 @@
             }
             ?>
           </div>
-          <script>
-            document.getElementById('aptList').style.height = document.getElementById('aptFilters').offsetHeight + "px";
-          </script>
           <?php
           }
           ?>
@@ -425,6 +425,7 @@
 
         function loadScript() {
           reloadAptlist();
+          document.getElementById('aptList').style.height = document.getElementById('aptFilters').offsetHeight + "px";
         }
         </script>
 		
