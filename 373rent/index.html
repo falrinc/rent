@@ -63,7 +63,7 @@
       <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
         <div class="container">
           <div class="navbar-header">
-            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#custom-collapse"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a class="navbar-brand" href="index.php">373-RENT</a>
+            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#custom-collapse"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a class="navbar-brand" href="index.html">373-RENT</a>
           </div>
           <div class="collapse navbar-collapse" id="custom-collapse">
             <ul class="nav navbar-nav navbar-right">
@@ -73,51 +73,18 @@
               </li>
               <li><a href="#thingsToDo">Things To Do</a>
               </li>
-              <li><a href="contact.php" style="color:white">Request a Tour</a>
+              <li><a href="contact.html" style="color:white">Request a Tour</a>
               </li>
             </ul>
           </div>
         </div>
       </nav>
-
-    <?php
-    $username = "root";
-    $password = "password";
-    $hostname = "localhost";
-    $dbname = "aptinfo";
-    $connected = TRUE;
-
-    $conn = new mysqli($hostname, $username, $password, $dbname);
-
-    if ($conn->connect_error) {
-      $connected = FALSE;
-    }
-    ?>
 	  
 	  <!-- Start of home page-->
 	  <!-- Home section -->
       <section class="home-section home-full-height photography-page" id="home">
         <div class="hero-slider">
           <ul id="coverPhotos" class="slides">
-
-          <?php
-          if($connected) {
-            $sql = "SELECT src, caption FROM coverphotos ORDER BY id";
-            $result = $conn->query($sql);
-
-            if ($result->num_rows > 0) {
-              while($row = $result->fetch_assoc()) {
-                echo "<li class=\"bg-dark\" style=\"background-image:url('" . $row["src"] . "');\">";
-                echo "<div class=\"container\">";
-                echo "<div class=\"image-caption\">";
-                echo "<div class=\"font-alt caption-text\">";
-                if(!is_null($row["caption"])) echo $row["caption"];
-                echo "</div></div></div></li>";
-              }
-            }
-          }
-          ?>
-
           </ul>
         </div>
       </section>
@@ -128,80 +95,14 @@
           <div class="container">
 		        <h2 class="module-title font-alt">Rental Units</h2>
           </div>
-
-          <?php
-          if($connected) {
-            $sql = "SELECT id, name, available, price, cover, bedroom, bathroom, sqfoot FROM aptlist ORDER BY price ASC";
-            $fullApts = $conn->query($sql);
-            $sql = "SELECT DISTINCT type FROM amenities ORDER BY type";
-            $amens = $conn->query($sql);
-
-          ?>
-
           <div class="aptFilters" id="aptFilters">
             <div class="checkRow lrg">
               <div class="checkBox unselectable" id="AvailableNow" onclick="toggleChecked('AvailableNow')"></div>
               <p>Available Now</p>
             </div>
-            <?php
-            if ($amens->num_rows > 0) {
-              while($row = $amens->fetch_assoc()) {
-                $amenShort = str_replace(" ", "", $row["type"]);
-                echo "<div class=\"checkRow sml\">";
-                echo "<div class=\"checkBox unselectable\" id=\"" . $amenShort . "\" onclick=\"toggleChecked('" . $amenShort . "')\"></div>";
-                echo "<p>" . $row["type"] . "</p>";
-                echo "</div>";
-              }
-            }
-            ?>
           </div>
           <div class="aptList" id="aptList">
-            <?php
-            if($fullApts->num_rows > 0) {
-              while($row = $fullApts->fetch_assoc()) {
-                echo "<a href=\"rental.php?id=" . $row["id"] . "\">";
-                echo "<div class=\"listBox";
-
-                $classList = "";
-
-                if(!is_null($row["available"])) {
-                  if(new DateTime($row["available"]) <= new DateTime()) {
-                    $classList = $classList . " AvailableNow";
-                  }
-                }
-
-                $innerSQL = "SELECT type FROM amenities WHERE id='" . $row["id"] . "'";
-                $sub_res = $conn->query($innerSQL);
-
-                if($sub_res->num_rows > 0) {
-                  while($sub_row = $sub_res->fetch_assoc()) {
-                    $catShort = str_replace(" ", "", $sub_row["type"]);
-                    $classList = $classList . " " . $catShort;
-                  }
-                }
-
-                echo $classList . "\">";
-                echo "<img src=\"" . $row["cover"] . "\" />";
-                echo "<div class=\"textContain\">";
-                echo "<p>" . $row["name"];
-
-                if(!is_null($row["price"])) echo " (<i><b>$" . $row["price"] . "</b> / Mo</i>)";
-
-                echo "</p>";
-                echo "<p><b>" . $row["bedroom"] . "</b> BEDROOM / <b>" . $row["bathroom"] . "</b> BATHROOM</p>";
-
-                if(!is_null($row["sqfoot"])) echo "<p><b>" . $row["sqfoot"] . "</b> SQ FEET</p>";
-
-                echo "</div>";
-                echo "<div class=\"overlay\"></div>";
-                echo "</div></a>";
-              }
-            }
-            ?>
           </div>
-          <?php
-          }
-          ?>
         </section>
 		
 		<div style="height:500px"></div>
@@ -213,79 +114,13 @@
               <div class="col-sm-12" >
                 <ul class="filter font-alt" id="filters" >
                   <li><a class="current wow fadeInUp" href="#" data-filter="*">All</a></li>
-
-                  <?php
-                  if($connected) {
-                    $sql = "SELECT DISTINCT type FROM categories ORDER BY type";
-                    $result = $conn->query($sql);
-                    $num = 0.1;
-
-                    if ($result->num_rows > 0) {
-                      while($row = $result->fetch_assoc()) {
-                        $catShort = str_replace(" ", "", $row["type"]);
-                        echo "<li><a class=\"wow fadeInUp\" href=\"#\" data-filter=\"." . $catShort . "\" data-wow-delay=\"" . $num . "s\">" . $row["type"] . "</a></li>";
-                        $num += 0.1;
-                      }
-                    }
-                  }
-                  ?>
                 </ul>
               </div>
             </div>
           </div>
-          <?php
-            if($connected) {
-              $sql = "SELECT id, name, description, maplink, weblink, cover FROM extralist ORDER BY name";
-              $result = $conn->query($sql);
-
-              echo "<ul class=\"works-grid works-hover-w works-grid-4\" id=\"works-grid\">";
-
-              if ($result->num_rows > 0) {
-                while($row = $result->fetch_assoc()) {
-                  $sub_sql = "SELECT type FROM categories WHERE id='" . $row["id"] . "' ORDER BY type";
-                  $sub_res = $conn->query($sub_sql);
-
-                  $disp = "<li class=\"work-item";
-
-                  if($sub_res->num_rows > 0) {
-                    while($sub_row = $sub_res->fetch_assoc()) {
-                      $sub_cat = str_replace(" ", "", $sub_row["type"]);
-                      $disp = $disp . " " . $sub_cat;
-                    }
-                  }
-
-                  echo $disp . "\"><a onclick=\"showContent('_" . $row["id"] . "')\">";
-                  echo "<div class=\"work-image\"><img src=\"" . $row["cover"] . "\" alt=\"Attraction\"/></div>";
-                  echo "<div class=\"work-caption font-alt\">";
-                  echo "<h3 class=\"work-title\">" . $row["name"] . "</h3>";
-                  //echo "<div class=\"work-descr\">Something</div>";
-                  echo "</div></a></li>";
-                }
-
-                $result->data_seek(0);
-                echo "</ul></div>";
-
-                while($row = $result->fetch_assoc()) {
-                  echo "<div class=\"cb content_" . $row["id"] . "\">";
-                  echo "<div class=\"sb slideBox_" . $row["id"] . "\">";
-                  echo "<img class=\"slide_" . $row["id"] . "\" src=\"" . $row["cover"] . "\" />";
-                  //extra photos
-                  echo "<iframe class=\"slide_" . $row["id"] . "\" frameborder=\"0\" data-src=\"" . $row["maplink"] . "\"></iframe>";
-                  echo "<a class=\"prevSlide\" onclick=\"showSlides('_" . $row["id"] . "', -1)\">&#10094;</a>";
-                  echo "<a class=\"nextSlide\" onclick=\"showSlides('_" . $row["id"] . "', 1)\">&#10095;</a>";
-                  echo "</div>";
-                  echo "<h1>" . $row["name"] . "</h1>";
-                  echo "<p>" . $row["description"] . "</p>";
-                  echo "<a class=\"web_button\" target=\"_blank\" href=\"" . $row["weblink"] . "\"><i class=\"fa fa-globe\"></i></a>";
-                  echo "<a class=\"close_button\" onclick=\"hideContent()\"><i class=\"fa fa-window-close\"></i></a>";
-                  echo "</div>";
-                }
-              }
-            }
-            else {
-              echo "</div>";
-            }
-          ?>
+          <ul class="works-grid works-hover-w works-grid-4" id="works-grid">
+          </ul>
+        </div>
         
         </section>
         <script>
@@ -412,8 +247,158 @@
         }
 
         function loadScript() {
-          reloadAptlist();
-          document.getElementById('aptList').style.height = document.getElementById('aptFilters').offsetHeight + "px";
+
+          loadNum = 0;
+
+          $.ajax({
+            url: "listings.php",
+            type: "post",
+            data: {action:"categories"} ,
+            success: function (response) {
+              $("#filters").append(response); //categories
+              loadNum += 1;
+
+              if(loadNum >= 6) {
+                reloadAptlist();
+                document.getElementById('aptList').style.height = document.getElementById('aptFilters').offsetHeight + "px";
+                readyLoad();
+              }
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+              loadNum += 1;
+
+              if(loadNum >= 6) {
+                reloadAptlist();
+                document.getElementById('aptList').style.height = document.getElementById('aptFilters').offsetHeight + "px";
+                readyLoad();
+              }
+            }
+          });
+
+          $.ajax({
+            url: "listings.php",
+            type: "post",
+            data: {action:"gridthings"} ,
+            success: function (response) {
+              $("#works-grid").append(response); //gridthings
+              loadNum += 1;
+
+              if(loadNum >= 6) {
+                reloadAptlist();
+                document.getElementById('aptList').style.height = document.getElementById('aptFilters').offsetHeight + "px";
+                readyLoad();
+              }
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+              loadNum += 1;
+
+              if(loadNum >= 6) {
+                reloadAptlist();
+                document.getElementById('aptList').style.height = document.getElementById('aptFilters').offsetHeight + "px";
+                readyLoad();
+              }
+            }
+          });
+
+          $.ajax({
+            url: "listings.php",
+            type: "post",
+            data: {action:"thingstodo"} ,
+            success: function (response) {
+              $("#thingsToDo").append(response); //thingstodo
+              loadNum += 1;
+
+              if(loadNum >= 6) {
+                reloadAptlist();
+                document.getElementById('aptList').style.height = document.getElementById('aptFilters').offsetHeight + "px";
+                readyLoad();
+              }
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+              loadNum += 1;
+
+              if(loadNum >= 6) {
+                reloadAptlist();
+                document.getElementById('aptList').style.height = document.getElementById('aptFilters').offsetHeight + "px";
+                readyLoad();
+              }
+            }
+          });
+
+          $.ajax({
+            url: "listings.php",
+            type: "post",
+            data: {action:"checkboxes"} ,
+            success: function (response) {
+              $("#aptFilters").append(response); //checkboxes
+              loadNum += 1;
+
+              if(loadNum >= 6) {
+                reloadAptlist();
+                document.getElementById('aptList').style.height = document.getElementById('aptFilters').offsetHeight + "px";
+                readyLoad();
+              }
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+              loadNum += 1;
+
+              if(loadNum >= 6) {
+                reloadAptlist();
+                document.getElementById('aptList').style.height = document.getElementById('aptFilters').offsetHeight + "px";
+                readyLoad();
+              }
+            }
+          });
+
+          $.ajax({
+            url: "listings.php",
+            type: "post",
+            data: {action:"aptlist"} ,
+            success: function (response) {
+              $("#aptList").append(response); //aptlist
+              loadNum += 1;
+
+              if(loadNum >= 6) {
+                reloadAptlist();
+                document.getElementById('aptList').style.height = document.getElementById('aptFilters').offsetHeight + "px";
+                readyLoad();
+              }
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+              loadNum += 1;
+
+              if(loadNum >= 6) {
+                reloadAptlist();
+                document.getElementById('aptList').style.height = document.getElementById('aptFilters').offsetHeight + "px";
+                readyLoad();
+              }
+            }
+          });
+
+          $.ajax({
+            url: "listings.php",
+            type: "post",
+            data: {action:"coverphotos"} ,
+            success: function (response) {
+              $("#coverPhotos").append(response); //coverphotos
+              loadNum += 1;
+
+              if(loadNum >= 6) {
+                reloadAptlist();
+                document.getElementById('aptList').style.height = document.getElementById('aptFilters').offsetHeight + "px";
+                readyLoad();
+              }
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+              loadNum += 1;
+
+              if(loadNum >= 6) {
+                reloadAptlist();
+                document.getElementById('aptList').style.height = document.getElementById('aptFilters').offsetHeight + "px";
+                readyLoad();
+              }
+            }
+          });
         }
         </script>
 		
