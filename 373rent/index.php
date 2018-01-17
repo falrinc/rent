@@ -119,9 +119,6 @@
           ?>
 
           </ul>
-          <script>
-            document.getElementById('coverPhotos').innerHTML("<h1>Wacko</h1>");
-          </script>
         </div>
       </section>
       <div class="main">
@@ -396,15 +393,6 @@
             }
             else $(this).css("display", "none");
           });
-
-          /*
-          for (i = 0; i < slides.length; i++) {
-            if(i == curSlide) {
-              slides[i].style.display = "block";
-            }
-            else slides[i].style.display = "none";
-          }
-          */
         }
 
         function showContent(cid) {
