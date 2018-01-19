@@ -125,6 +125,10 @@ function readyLoad() {
                 animationLoop: true,
                 prevText: '',
                 nextText: '',
+                slideshow: true,
+                slideshowSpeed: 5000,
+                controlNav: false,
+                directionNav: false,
                 before: function(slider) {
                     $('.titan-caption').fadeOut().animate({top:'-80px'},{queue:false, easing: 'swing', duration: 700});
                     slider.slides.eq(slider.currentSlide).delay(500);

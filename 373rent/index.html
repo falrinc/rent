@@ -63,7 +63,7 @@
       <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
         <div class="container">
           <div class="navbar-header">
-            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#custom-collapse"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a class="navbar-brand" href="index.html">373-RENT</a>
+            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#custom-collapse"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a class="navbar-brand" href="index.html">(352) 373-RENT</a>
           </div>
           <div class="collapse navbar-collapse" id="custom-collapse">
             <ul class="nav navbar-nav navbar-right">
@@ -73,7 +73,7 @@
               </li>
               <li><a href="#thingsToDo">Things To Do</a>
               </li>
-              <li><a href="contact.html" style="color:white">Request a Tour</a>
+              <li><a href="contact.html" style="color:white">Contact Us</a>
               </li>
             </ul>
           </div>
@@ -95,17 +95,24 @@
           <div class="container">
 		        <h2 class="module-title font-alt">Rental Units</h2>
           </div>
-          <div class="aptFilters" id="aptFilters">
-            <div class="checkRow lrg">
-              <div class="checkBox unselectable" id="AvailableNow" onclick="toggleChecked('AvailableNow')"></div>
-              <p>Available Now</p>
+          <div id="aptList" class="aptSlideshow">
+            <div id="aptListContainer" class="aptSlideshowContainer">
             </div>
+            <div class="ssLeft unselectable faded" onclick="aptListLeft()">&#10094;</div>
+            <div class="ssRight unselectable" onclick="aptListRight()">&#10095;</div>
           </div>
-          <div class="aptList" id="aptList">
+          <div id="aptInfo" class="infoContainer">
+            <p class="info"></p>
+            <div class="notifyAvail">
+              <form action="addEmail.php" method="post" role="form" class="contactForm" id="cForm">
+                <input class="notifyField" type="text" name="email" placeholder="Email Address">
+                <input type="hidden" name="apt" value="" id="setinput">
+                <input type="submit" value="Notify When Available">
+              </form> 
+            </div>
+            <input type="button" id="altForm" onclick="redirec()" value="Request More Information" href="contact.html">
           </div>
         </section>
-		
-		<div style="height:500px"></div>
         <section class="module pb-0" id="thingsToDo">
       <h2 class="module-title font-alt" >Food & Entertainment in the Area</h2>
         <div class="rwi">
@@ -127,79 +134,59 @@
 
         curSlide = 0;
 
-        function reloadAptlist() {
-          anyChecked = false;
-
-          $(".listBox").animate({opacity: 0}, 500);
-
-          setTimeout(function(){
-            $(".checkBox").each(function() {
-              if($(this).data("checked")) anyChecked = true;
-            });
-
-            if(!anyChecked) {
-              bgswitch = true;
-
-              $(".listBox").each(function() {
-                $(this).css("display", "block");
-                if(!$(this).hasClass("AvailableNow")) {
-                  $(this).find(".overlay").css("background", "rgba(255,255,255,0.8)");
-                } else {
-                  if(bgswitch) {
-                    $(this).css("background", "rgb(220,220,220)");
-                    bgswitch = false;
-                  } else {
-                    $(this).css("background", "rgb(195,195,195)");
-                    bgswitch = true;
-                  }
-                }
-              });
-            } else {
-              bgswitch = true;
-
-              $(".listBox").each(function() {
-                matchedAll = true;
-                pElem = $(this);
-
-                $(".checkBox").each(function() {
-                  if($(this).data("checked") && !pElem.hasClass($(this).attr("id"))) matchedAll = false;
-                });
-
-                if(matchedAll) {
-                  $(this).css("display", "block");
-                  if(!$(this).hasClass("AvailableNow")) {
-                    $(this).find(".overlay").css("background", "rgba(255,255,255,0.8)");
-                  } else {
-                    if(bgswitch) {
-                      $(this).css("background", "rgb(220,220,220)");
-                      bgswitch = false;
-                    } else {
-                      $(this).css("background", "rgb(195,195,195)");
-                      bgswitch = true;
-                    }
-                  }
-                } else {
-                  $(this).css("display", "none");
-                }
-              });
-            }
-          }, 500);
-
-          $(".listBox").animate({opacity: 1}, 500);
+        function redirec() {
+          location.href = "contact.html?apt=" + $("#setinput").prop("value");
         }
 
-        function toggleChecked(checkName) {
-          sid = ("#" + checkName).replace(".", "\\.");
-          
-          if($(sid).data("checked")) {
-            $(sid).data("checked", "");
-            $(sid).html("");
-          } else {
-            $(sid).data("checked", "1");
-            $(sid).html("X");
-          }
+        function updateListingInfo(id, name, avail) {
+          availText = "(Available " + avail + ")";
+          if(avail == "nill") availText = "(Not Currently Available)";
+          if(avail == "now") availText = "(Available Now!)";
 
-          reloadAptlist();
+          $("#setinput").prop("value", id);
+          $(".info").html(name + " <span>" + availText + "</span>");
+
+          $("#cForm")[0].reset();
+          if(avail == "now") {
+            $(".notifyAvail").hide();
+            $("#altForm").show();
+          }
+          else {
+            $(".notifyAvail").show();
+            $("#altForm").hide();
+          }
+        }
+
+        function aptListLeft() {
+          cont = $(".aptSlideshowContainer .sImg").length;
+          $(".aptSlideshowContainer .sImg").each(function(index) {
+            if($(this).hasClass("slideLeft")) {
+              updateListingInfo($(this).data("id"), $(this).data("name"), $(this).data("avail"));
+              $(this).removeClass("slideLeft");
+              $(this).addClass("slideReturn");
+              if(index + 1 == cont) $(".ssLeft").addClass("faded");
+              if($(".ssRight").hasClass("faded")) { $(".ssRight").removeClass("faded"); }
+              return false;
+            }
+          });
+        }
+
+        function aptListRight() {
+          cont = $(".aptSlideshowContainer .sImg").length;
+          stopNow = false;
+          $($(".aptSlideshowContainer .sImg").get().reverse()).each(function(index) {
+            if(stopNow) {
+              updateListingInfo($(this).data("id"), $(this).data("name"), $(this).data("avail"));
+              return false;
+            }
+            if(!$(this).hasClass("slideLeft") && index + 1 < cont) {
+              if($(this).hasClass("slideReturn")) $(this).removeClass("slideReturn");
+              $(this).addClass("slideLeft");
+              if(index + 2 == cont) $(".ssRight").addClass("faded");
+              if($(".ssLeft").hasClass("faded")) { $(".ssLeft").removeClass("faded"); }
+              stopNow = true;
+            }
+          });
         }
 
         function showSlides(ext, off) {
@@ -249,6 +236,10 @@
         function loadScript() {
 
           loadNum = 0;
+          $(".aptSlideshow").height($(".aptSlideshow").width() / 2);
+          $( window ).resize(function() {
+            $(".aptSlideshow").height($(".aptSlideshow").width() / 2);
+          });
 
           $.ajax({
             url: "listings.php",
@@ -258,18 +249,18 @@
               $("#filters").append(response); //categories
               loadNum += 1;
 
-              if(loadNum >= 6) {
-                reloadAptlist();
-                document.getElementById('aptList').style.height = document.getElementById('aptFilters').offsetHeight + "px";
+              if(loadNum >= 5) {
+                firstImg = $($(".aptSlideshowContainer .sImg").get().reverse()).first();
+                updateListingInfo(firstImg.data("id"), firstImg.data("name"), firstImg.data("avail")); 
                 readyLoad();
               }
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
               loadNum += 1;
 
-              if(loadNum >= 6) {
-                reloadAptlist();
-                document.getElementById('aptList').style.height = document.getElementById('aptFilters').offsetHeight + "px";
+              if(loadNum >= 5) {
+                firstImg = $($(".aptSlideshowContainer .sImg").get().reverse()).first();
+                updateListingInfo(firstImg.data("id"), firstImg.data("name"), firstImg.data("avail")); 
                 readyLoad();
               }
             }
@@ -283,18 +274,18 @@
               $("#works-grid").append(response); //gridthings
               loadNum += 1;
 
-              if(loadNum >= 6) {
-                reloadAptlist();
-                document.getElementById('aptList').style.height = document.getElementById('aptFilters').offsetHeight + "px";
+              if(loadNum >= 5) {
+                firstImg = $($(".aptSlideshowContainer .sImg").get().reverse()).first();
+                updateListingInfo(firstImg.data("id"), firstImg.data("name"), firstImg.data("avail")); 
                 readyLoad();
               }
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
               loadNum += 1;
 
-              if(loadNum >= 6) {
-                reloadAptlist();
-                document.getElementById('aptList').style.height = document.getElementById('aptFilters').offsetHeight + "px";
+              if(loadNum >= 5) {
+                firstImg = $($(".aptSlideshowContainer .sImg").get().reverse()).first();
+                updateListingInfo(firstImg.data("id"), firstImg.data("name"), firstImg.data("avail")); 
                 readyLoad();
               }
             }
@@ -308,68 +299,18 @@
               $("#thingsToDo").append(response); //thingstodo
               loadNum += 1;
 
-              if(loadNum >= 6) {
-                reloadAptlist();
-                document.getElementById('aptList').style.height = document.getElementById('aptFilters').offsetHeight + "px";
+              if(loadNum >= 5) {
+                firstImg = $($(".aptSlideshowContainer .sImg").get().reverse()).first();
+                updateListingInfo(firstImg.data("id"), firstImg.data("name"), firstImg.data("avail")); 
                 readyLoad();
               }
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
               loadNum += 1;
 
-              if(loadNum >= 6) {
-                reloadAptlist();
-                document.getElementById('aptList').style.height = document.getElementById('aptFilters').offsetHeight + "px";
-                readyLoad();
-              }
-            }
-          });
-
-          $.ajax({
-            url: "listings.php",
-            type: "post",
-            data: {action:"checkboxes"} ,
-            success: function (response) {
-              $("#aptFilters").append(response); //checkboxes
-              loadNum += 1;
-
-              if(loadNum >= 6) {
-                reloadAptlist();
-                document.getElementById('aptList').style.height = document.getElementById('aptFilters').offsetHeight + "px";
-                readyLoad();
-              }
-            },
-            error: function(XMLHttpRequest, textStatus, errorThrown) {
-              loadNum += 1;
-
-              if(loadNum >= 6) {
-                reloadAptlist();
-                document.getElementById('aptList').style.height = document.getElementById('aptFilters').offsetHeight + "px";
-                readyLoad();
-              }
-            }
-          });
-
-          $.ajax({
-            url: "listings.php",
-            type: "post",
-            data: {action:"aptlist"} ,
-            success: function (response) {
-              $("#aptList").append(response); //aptlist
-              loadNum += 1;
-
-              if(loadNum >= 6) {
-                reloadAptlist();
-                document.getElementById('aptList').style.height = document.getElementById('aptFilters').offsetHeight + "px";
-                readyLoad();
-              }
-            },
-            error: function(XMLHttpRequest, textStatus, errorThrown) {
-              loadNum += 1;
-
-              if(loadNum >= 6) {
-                reloadAptlist();
-                document.getElementById('aptList').style.height = document.getElementById('aptFilters').offsetHeight + "px";
+              if(loadNum >= 5) {
+                firstImg = $($(".aptSlideshowContainer .sImg").get().reverse()).first();
+                updateListingInfo(firstImg.data("id"), firstImg.data("name"), firstImg.data("avail")); 
                 readyLoad();
               }
             }
@@ -383,24 +324,66 @@
               $("#coverPhotos").append(response); //coverphotos
               loadNum += 1;
 
-              if(loadNum >= 6) {
-                reloadAptlist();
-                document.getElementById('aptList').style.height = document.getElementById('aptFilters').offsetHeight + "px";
+              if(loadNum >= 5) {
+                firstImg = $($(".aptSlideshowContainer .sImg").get().reverse()).first();
+                updateListingInfo(firstImg.data("id"), firstImg.data("name"), firstImg.data("avail")); 
                 readyLoad();
               }
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
               loadNum += 1;
 
-              if(loadNum >= 6) {
-                reloadAptlist();
-                document.getElementById('aptList').style.height = document.getElementById('aptFilters').offsetHeight + "px";
+              if(loadNum >= 5) {
+                firstImg = $($(".aptSlideshowContainer .sImg").get().reverse()).first();
+                updateListingInfo(firstImg.data("id"), firstImg.data("name"), firstImg.data("avail")); 
                 readyLoad();
               }
             }
           });
+
+          $.ajax({
+            url: "listings.php",
+            type: "post",
+            data: {action:"aptlist"} ,
+            success: function (response) {
+              $("#aptListContainer").append(response); //aptList
+              loadNum += 1;
+
+              if(loadNum >= 5) {
+                firstImg = $($(".aptSlideshowContainer .sImg").get().reverse()).first();
+                updateListingInfo(firstImg.data("id"), firstImg.data("name"), firstImg.data("avail")); 
+                readyLoad();
+              }
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+              loadNum += 1;
+
+              if(loadNum >= 5) {
+                firstImg = $($(".aptSlideshowContainer .sImg").get().reverse()).first();
+                updateListingInfo(firstImg.data("id"), firstImg.data("name"), firstImg.data("avail"));   
+                readyLoad();
+              }
+            }
+          });
+
+          $("#cForm").bind("submit", function() {
+            $.ajax({
+                    type     : "POST",
+                    cache    : false,
+                    url      : $(this).attr('action'),
+                    data     : $(this).serialize(),
+                    success  : function(data) {
+                        $("#cForm")[0].reset();
+                        $(".notifyAvail").animate({opacity: 0}, 500, function() {
+                          $(".notifyAvail").hide();
+                          $(".notifyAvail").css("opacity", "1");
+                        });
+                    }
+            });
+            return false;
+          });
         }
-        </script>
+  </script>
 		
         <hr class="divider-d">
         <footer class="footer bg-dark">

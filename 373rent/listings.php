@@ -110,67 +110,36 @@ if($action == "thingstodo") {
     exit();
 }
 
-if($action == "checkboxes") {
-    if($connected) {
-        $sql = "SELECT DISTINCT type FROM amenities ORDER BY type";
-        $amens = $conn->query($sql);
-
-        if ($amens->num_rows > 0) {
-            while($row = $amens->fetch_assoc()) {
-                $amenShort = str_replace(" ", "", $row["type"]);
-                echo "<div class=\"checkRow sml\">";
-                echo "<div class=\"checkBox unselectable\" id=\"" . $amenShort . "\" onclick=\"toggleChecked('" . $amenShort . "')\"></div>";
-                echo "<p>" . $row["type"] . "</p>";
-                echo "</div>";
-            }
-        }
-    }
-    exit();
-}
-
 if($action == "aptlist") {
     if($connected) {
-        $sql = "SELECT id, name, available, price, cover, bedroom, bathroom, sqfoot FROM aptlist ORDER BY price ASC";
+        $sql = "SELECT id, name, available, cover FROM aptlist WHERE available IS NULL ORDER BY name DESC";
+        $partApts = $conn->query($sql);
+
+        if($partApts->num_rows > 0) {
+            while($row = $partApts->fetch_assoc()) {
+                $putDate = "nill";
+
+                echo "<div class=\"sImg\" style=\"background-image: url('" . $row["cover"] ."')\" data-id=\"" . $row["id"] . "\" data-name=\"" . $row["name"] . "\" data-avail=\"" . $putDate . "\" ></div>";
+            }
+        }
+
+        $sql = "SELECT id, name, available, cover FROM aptlist WHERE available IS NOT NULL ORDER BY available DESC";
         $fullApts = $conn->query($sql);
 
         if($fullApts->num_rows > 0) {
             while($row = $fullApts->fetch_assoc()) {
-                echo "<a href=\"rental.html?id=" . $row["id"] . "\">";
-                echo "<div class=\"listBox";
-
-                $classList = "";
-
+                $putDate = "nill";
                 if(!is_null($row["available"])) {
                     if(new DateTime($row["available"]) <= new DateTime()) {
-                        $classList = $classList . " AvailableNow";
+                        $putDate = "now";
+                    }
+                    else {
+                        $phpdate = strtotime( $row["available"] );
+                        $putDate = date( 'm-d-Y', $phpdate );
                     }
                 }
 
-                $innerSQL = "SELECT type FROM amenities WHERE id='" . $row["id"] . "'";
-                $sub_res = $conn->query($innerSQL);
-
-                if($sub_res->num_rows > 0) {
-                    while($sub_row = $sub_res->fetch_assoc()) {
-                        $catShort = str_replace(" ", "", $sub_row["type"]);
-                        $classList = $classList . " " . $catShort;
-                    }
-                }
-
-                echo $classList . "\">";
-                echo "<img src=\"" . $row["cover"] . "\" />";
-                echo "<div class=\"textContain\">";
-                echo "<p>" . $row["name"];
-
-                if(!is_null($row["price"])) echo " (<i><b>$" . $row["price"] . "</b> / Mo</i>)";
-
-                echo "</p>";
-                echo "<p><b>" . $row["bedroom"] . "</b> BEDROOM / <b>" . $row["bathroom"] . "</b> BATHROOM</p>";
-
-                if(!is_null($row["sqfoot"])) echo "<p><b>" . $row["sqfoot"] . "</b> SQ FEET</p>";
-
-                echo "</div>";
-                echo "<div class=\"overlay\"></div>";
-                echo "</div></a>";
+                echo "<div class=\"sImg\" style=\"background-image: url('" . $row["cover"] ."')\" data-id=\"" . $row["id"] . "\" data-name=\"" . $row["name"] . "\" data-avail=\"" . $putDate . "\" ></div>";
             }
         }
     }
