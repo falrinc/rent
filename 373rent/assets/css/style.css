@@ -47,6 +47,20 @@
   color:rgb(200,200,200);
 }
 
+.aptSlideshow p {
+  position:absolute;
+  top:1%;
+  left:4%;
+  font-size:3vw;
+  opacity:0.5;
+  color:rgb(200,200,200);
+  text-shadow:
+    -1px -1px 0 rgb(155,155,155),
+    1px -1px 0 rgb(155,155,155),
+    -1px 1px 0 rgb(155,155,155),
+    1px 1px 0 rgb(155,155,155);  
+}
+
 .aptSlideshow .faded {
   color:rgb(240,240,240);
   cursor:default;

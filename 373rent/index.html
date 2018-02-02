@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-US" dir="ltr">
   <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -100,6 +99,7 @@
             </div>
             <div class="ssLeft unselectable faded" onclick="aptListLeft()">&#10094;</div>
             <div class="ssRight unselectable" onclick="aptListRight()">&#10095;</div>
+            <p id="aptListLabel"></p>
           </div>
           <div id="aptInfo" class="infoContainer">
             <p class="info"></p>
@@ -138,13 +138,20 @@
           location.href = "contact.html?apt=" + $("#setinput").prop("value");
         }
 
-        function updateListingInfo(id, name, avail) {
+        function updateListingInfo(id, name, avail, assoc) {
           availText = "(Available " + avail + ")";
           if(avail == "nill") availText = "(Not Currently Available)";
           if(avail == "now") availText = "(Available Now!)";
 
-          $("#setinput").prop("value", id);
+          $("#setinput").prop("value", name);
           $(".info").html(name + " <span>" + availText + "</span>");
+
+          if($("#aptListLabel").html() != assoc) {
+            $("#aptListLabel").animate({opacity: 0}, 300, function() {
+              $("#aptListLabel").html(assoc);
+              $("#aptListLabel").animate({opacity: 0.5}, 300, function() {});
+            });
+          }
 
           $("#cForm")[0].reset();
           if(avail == "now") {
@@ -161,7 +168,7 @@
           cont = $(".aptSlideshowContainer .sImg").length;
           $(".aptSlideshowContainer .sImg").each(function(index) {
             if($(this).hasClass("slideLeft")) {
-              updateListingInfo($(this).data("id"), $(this).data("name"), $(this).data("avail"));
+              updateListingInfo($(this).data("id"), $(this).data("name"), $(this).data("avail"), $(this).data("assoc"));
               $(this).removeClass("slideLeft");
               $(this).addClass("slideReturn");
               if(index + 1 == cont) $(".ssLeft").addClass("faded");
@@ -176,7 +183,7 @@
           stopNow = false;
           $($(".aptSlideshowContainer .sImg").get().reverse()).each(function(index) {
             if(stopNow) {
-              updateListingInfo($(this).data("id"), $(this).data("name"), $(this).data("avail"));
+              updateListingInfo($(this).data("id"), $(this).data("name"), $(this).data("avail"), $(this).data("assoc"));
               return false;
             }
             if(!$(this).hasClass("slideLeft") && index + 1 < cont) {
@@ -251,7 +258,7 @@
 
               if(loadNum >= 5) {
                 firstImg = $($(".aptSlideshowContainer .sImg").get().reverse()).first();
-                updateListingInfo(firstImg.data("id"), firstImg.data("name"), firstImg.data("avail")); 
+                updateListingInfo(firstImg.data("id"), firstImg.data("name"), firstImg.data("avail"), firstImg.data("assoc")); 
                 readyLoad();
               }
             },
@@ -260,7 +267,7 @@
 
               if(loadNum >= 5) {
                 firstImg = $($(".aptSlideshowContainer .sImg").get().reverse()).first();
-                updateListingInfo(firstImg.data("id"), firstImg.data("name"), firstImg.data("avail")); 
+                updateListingInfo(firstImg.data("id"), firstImg.data("name"), firstImg.data("avail"), firstImg.data("assoc")); 
                 readyLoad();
               }
             }
@@ -276,7 +283,7 @@
 
               if(loadNum >= 5) {
                 firstImg = $($(".aptSlideshowContainer .sImg").get().reverse()).first();
-                updateListingInfo(firstImg.data("id"), firstImg.data("name"), firstImg.data("avail")); 
+                updateListingInfo(firstImg.data("id"), firstImg.data("name"), firstImg.data("avail"), firstImg.data("assoc")); 
                 readyLoad();
               }
             },
@@ -285,7 +292,7 @@
 
               if(loadNum >= 5) {
                 firstImg = $($(".aptSlideshowContainer .sImg").get().reverse()).first();
-                updateListingInfo(firstImg.data("id"), firstImg.data("name"), firstImg.data("avail")); 
+                updateListingInfo(firstImg.data("id"), firstImg.data("name"), firstImg.data("avail"), firstImg.data("assoc")); 
                 readyLoad();
               }
             }
@@ -301,7 +308,7 @@
 
               if(loadNum >= 5) {
                 firstImg = $($(".aptSlideshowContainer .sImg").get().reverse()).first();
-                updateListingInfo(firstImg.data("id"), firstImg.data("name"), firstImg.data("avail")); 
+                updateListingInfo(firstImg.data("id"), firstImg.data("name"), firstImg.data("avail"), firstImg.data("assoc")); 
                 readyLoad();
               }
             },
@@ -310,7 +317,7 @@
 
               if(loadNum >= 5) {
                 firstImg = $($(".aptSlideshowContainer .sImg").get().reverse()).first();
-                updateListingInfo(firstImg.data("id"), firstImg.data("name"), firstImg.data("avail")); 
+                updateListingInfo(firstImg.data("id"), firstImg.data("name"), firstImg.data("avail"), firstImg.data("assoc")); 
                 readyLoad();
               }
             }
@@ -326,7 +333,7 @@
 
               if(loadNum >= 5) {
                 firstImg = $($(".aptSlideshowContainer .sImg").get().reverse()).first();
-                updateListingInfo(firstImg.data("id"), firstImg.data("name"), firstImg.data("avail")); 
+                updateListingInfo(firstImg.data("id"), firstImg.data("name"), firstImg.data("avail"), firstImg.data("assoc")); 
                 readyLoad();
               }
             },
@@ -335,7 +342,7 @@
 
               if(loadNum >= 5) {
                 firstImg = $($(".aptSlideshowContainer .sImg").get().reverse()).first();
-                updateListingInfo(firstImg.data("id"), firstImg.data("name"), firstImg.data("avail")); 
+                updateListingInfo(firstImg.data("id"), firstImg.data("name"), firstImg.data("avail"), firstImg.data("assoc")); 
                 readyLoad();
               }
             }
@@ -351,7 +358,7 @@
 
               if(loadNum >= 5) {
                 firstImg = $($(".aptSlideshowContainer .sImg").get().reverse()).first();
-                updateListingInfo(firstImg.data("id"), firstImg.data("name"), firstImg.data("avail")); 
+                updateListingInfo(firstImg.data("id"), firstImg.data("name"), firstImg.data("avail"), firstImg.data("assoc")); 
                 readyLoad();
               }
             },
@@ -360,7 +367,7 @@
 
               if(loadNum >= 5) {
                 firstImg = $($(".aptSlideshowContainer .sImg").get().reverse()).first();
-                updateListingInfo(firstImg.data("id"), firstImg.data("name"), firstImg.data("avail"));   
+                updateListingInfo(firstImg.data("id"), firstImg.data("name"), firstImg.data("avail"), firstImg.data("assoc"));   
                 readyLoad();
               }
             }

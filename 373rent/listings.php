@@ -112,18 +112,18 @@ if($action == "thingstodo") {
 
 if($action == "aptlist") {
     if($connected) {
-        $sql = "SELECT id, name, available, cover FROM aptlist WHERE available IS NULL ORDER BY name DESC";
+        $sql = "SELECT id, name, available, cover, assoc FROM aptlist WHERE available IS NULL ORDER BY name DESC";
         $partApts = $conn->query($sql);
 
         if($partApts->num_rows > 0) {
             while($row = $partApts->fetch_assoc()) {
                 $putDate = "nill";
 
-                echo "<div class=\"sImg\" style=\"background-image: url('" . $row["cover"] ."')\" data-id=\"" . $row["id"] . "\" data-name=\"" . $row["name"] . "\" data-avail=\"" . $putDate . "\" ></div>";
+                echo "<div class=\"sImg\" style=\"background-image: url('" . $row["cover"] ."')\" data-id=\"" . $row["id"] . "\" data-name=\"" . $row["name"] . "\" data-avail=\"" . $putDate . "\" data-assoc=\"" . $row["assoc"] . "\" ></div>";
             }
         }
 
-        $sql = "SELECT id, name, available, cover FROM aptlist WHERE available IS NOT NULL ORDER BY available DESC";
+        $sql = "SELECT id, name, available, cover, assoc FROM aptlist WHERE available IS NOT NULL ORDER BY available DESC";
         $fullApts = $conn->query($sql);
 
         if($fullApts->num_rows > 0) {
@@ -139,7 +139,7 @@ if($action == "aptlist") {
                     }
                 }
 
-                echo "<div class=\"sImg\" style=\"background-image: url('" . $row["cover"] ."')\" data-id=\"" . $row["id"] . "\" data-name=\"" . $row["name"] . "\" data-avail=\"" . $putDate . "\" ></div>";
+                echo "<div class=\"sImg\" style=\"background-image: url('" . $row["cover"] ."')\" data-id=\"" . $row["id"] . "\" data-name=\"" . $row["name"] . "\" data-avail=\"" . $putDate . "\" data-assoc=\"" . $row["assoc"] . "\" ></div>";
             }
         }
     }
