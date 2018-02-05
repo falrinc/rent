@@ -20,6 +20,19 @@ function readyLoad() {
         });
         wow.init();
 
+        setTimeout(function(){
+            var gotUrl = window.location.href;
+            var params = gotUrl.split("#");
+            if(params.length > 1) {
+                if (navigator.userAgent.match(/Chrome|AppleWebKit/)) { 
+                    window.location.href = "#" + params[1];
+                    window.location.href = "#" + params[1];
+                } else {
+                    window.location.hash = params[1];
+                }
+            }
+        }, 1);
+
 
         /* ---------------------------------------------- /*
          * Scroll top
