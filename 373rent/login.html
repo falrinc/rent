@@ -51,6 +51,7 @@
     <link href="assets/lib/simple-text-rotator/simpletextrotator.css" rel="stylesheet">
     <!-- Main stylesheet and color file-->
     <link href="assets/css/style.css" rel="stylesheet">
+    <link href="assets/css/admin.css" rel="stylesheet">
     <link id="color-scheme" href="assets/css/colors/default.css" rel="stylesheet">
   </head>
 
@@ -77,9 +78,11 @@
       </nav>
       <div style="margin-top:100px" class="login-box">
       <form id="loginForm" role="form" method="post" action="admin.php">
+        <input type="hidden" name="action" value="login" />
+        <p>Please login to access this page.<br>If you are here by accident, please <a href="index.html"><u>go back</u></a> to the main site.</p>
         <input class="login-form" type="text" name="username" placeholder="Username"/>
         <br>
-        <input class="login-form" type="text" name="password" placeholder="Password"/>
+        <input class="login-form" type="password" name="password" placeholder="Password"/>
         <br>
         <button class="login-button" type="submit">Login</button>
       </form>
@@ -88,8 +91,35 @@
 
     <script>
       function checkSession() {
-        //
+         $.ajax({
+          type     : "POST",
+          cache    : false,
+          url      : "admin.php",
+          data     : {action: "checksession"},
+          success  : function(data) {
+            if(data == "true") {
+              window.location = "admin.php";
+            }
+          }
+        });
+
+        $("#loginForm").bind("submit", function() {
+          $.ajax({
+            type     : "POST",
+            cache    : false,
+            url      : $(this).attr('action'),
+            data     : $(this).serialize(),
+            success  : function(data) {
+              window.location = "admin.php";
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+              window.location = "admin.php";
+            }
+          });
+          return false;
+        });
       }
-    </script>
+  </script>
+  <script src="assets/lib/jquery/dist/jquery.js"></script>
   </body>
 </html>

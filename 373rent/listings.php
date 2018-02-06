@@ -147,5 +147,40 @@ if($action == "aptlist") {
     exit();
 }
 
+if($action == "dropdown") {
+    if($connected) {
+        $sql = "SELECT id, name, available FROM aptlist WHERE available IS NOT NULL ORDER BY available ASC";
+        $fullApts = $conn->query($sql);
+
+        if($fullApts->num_rows > 0) {
+            while($row = $fullApts->fetch_assoc()) {
+                $putDate = "nill";
+                if(!is_null($row["available"])) {
+                    if(new DateTime($row["available"]) <= new DateTime()) {
+                        $putDate = "Now";
+                    }
+                    else {
+                        $phpdate = strtotime( $row["available"] );
+                        $putDate = date( 'm-d-Y', $phpdate );
+                    }
+                }
+
+                echo "<option id=\"" . $row["id"] . "\" value=\"" . $row["name"] . "\">" . $row["name"] . " (Available " . $putDate . ")</option>";
+            }
+        }
+
+        $sql = "SELECT id, name, available FROM aptlist WHERE available IS NULL ORDER BY name ASC";
+        $partApts = $conn->query($sql);
+
+        if($partApts->num_rows > 0) {
+            while($row = $partApts->fetch_assoc()) {
+                echo "<option id=\"" . $row["id"] . "\" value=\"" . $row["name"] . "\">" . $row["name"] . " (Not Available)</option>";
+            }
+        }
+    }
+
+    exit();
+}
+
 exit();
 ?>
