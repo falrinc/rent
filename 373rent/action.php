@@ -55,6 +55,8 @@ if($action == "updateCoverCaption") {
 }
 
 if($action == "uploadCover") {
+    //do not allow duplicates
+    
     $fName = $_FILES['image']['name'];
     echo "success";
     exit();
