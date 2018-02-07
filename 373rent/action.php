@@ -54,5 +54,29 @@ if($action == "updateCoverCaption") {
     exit();
 }
 
+if($action == "uploadCover") {
+    $fName = $_FILES['image']['name'];
+    echo "success";
+    exit();
+}
+
+if($action == "moveUpCover") {
+    echo "success";
+    exit();
+}
+
+if($action == "moveDownCover") {
+    echo "success";
+    exit();
+}
+
+if($action == "removeCover") {
+    echo "success";
+    exit();
+}
+
+echo "invalidaction";
+exit();
+
 ?>
 

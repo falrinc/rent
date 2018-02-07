@@ -109,126 +109,8 @@ if(!isset($_POST["action"])) {
 
 ?>
 <button class="floating-logout" type="button" onclick="logout()">Logout</button>
-<script>
-function loaded() {
-    $(".cover-caption").bind("input propertychange", function() { coverChange(); });
-    $(".cover-caption").on('keyup', function (e) {
-        if (e.keyCode == 13) {
-            if(!$(".cover-button").attr("disabled")) {
-                coverUpdate();
-            }
-        }
-    });
-}
-
-function handleResult(result) {
-    if(result == "notloggedin") {
-        window.location = "login.html";
-        return false;
-    }
-
-    if(result == "timeout") {
-        window.location = "admin.php";
-        return false;
-    }
-
-    if(result == "noaction") {
-        return false;
-    }
-
-    if(result == "error") {
-        return false;
-    }
-
-    return true;
-}
-
-function logout() {
-    $.ajax({
-        type     : "POST",
-        cache    : false,
-        url      : "admin.php",
-        data     : {action: "logout"},
-        success  : function(data) {
-            window.location = "login.html";
-        },
-        error: function (xhr, ajaxOptions, thrownError) {
-            window.location = "login.html";
-        }
-    });
-}
-
-function coverUpdate() {
-    imgSrc = $(".altSelected").html();
-    imgCap = $(".cover-caption").val();
-
-    $.ajax({
-        type     : "POST",
-        cache    : false,
-        url      : "action.php",
-        data     : {action: "updateCoverCaption",
-                    src: imgSrc,
-                    caption: imgCap},
-        success  : function(data) {
-            if(handleResult(data)) {
-                element = null;
-
-                $(".cover-entry").each(function() {
-                    if($(this).html() == imgSrc) {
-                        element = $(this);
-                    }
-                });
-
-                element.data("caption", imgCap);
-                coverSelect(element);
-            }
-        }
-    });
-}
-
-function coverSelect(element) {
-    $(".cover-entry").removeClass("altSelected");
-    $(element).addClass("altSelected");
-    imgSrc = $(element).html();
-    imgCap = $(element).data("caption");
-
-    $(".cover-preview").html("<img src=\"" + imgSrc + "\" style=\"width:100%;height:100%\" />");
-    $(".cover-caption").val(imgCap);
-    $(".cover-caption").data("old", imgCap);
-    $(".cover-caption").removeAttr("disabled");
-    $(".cover-button").attr("disabled", "disabled");
-    $(".cover-button").addClass("disabledButton");
-
-    if($("#coverUpArrow").length == 0) {
-        $(".cover-list").append("<div class=\"floating-move-button\" id=\"coverUpArrow\" onclick=\"moveUpSelected()\"></div>");
-    }
-    if($("#coverDownArrow").length == 0) {
-        $(".cover-list").append("<div class=\"floating-move-button\" id=\"coverDownArrow\" onclick=\"moveDownSelected()\"></div>");
-    }
-    if($("#coverRemove").length == 0) {
-        $(".cover-list").append("<div class=\"floating-move-button\" id=\"coverRemove\" onclick=\"removeSelectedCover()\"></div>");
-    }
-
-    $("#coverUpArrow").css("left", $(element).position().left + $(element).width() + $("#coverUpArrow").width() - 2);
-    $("#coverUpArrow").css("top", $(element).position().top);
-    $("#coverDownArrow").css("left", $(element).position().left + $(element).width() + $("#coverDownArrow").width() - 2);
-    $("#coverDownArrow").css("top", $(element).position().top + $("#coverDownArrow").height() + 1);
-    $("#coverRemove").css("left", $(element).position().left + - $("#coverDownArrow").width() - 2);
-    $("#coverRemove").css("top", $(element).position().top + ($("#coverDownArrow").height() / 2) + 1);
-}
-
-function coverChange() {
-    if($(".cover-caption").val() == $(".cover-caption").data("old")) {
-        $(".cover-button").attr("disabled", "disabled");
-        $(".cover-button").addClass("disabledButton");
-    } else {
-        $(".cover-button").removeAttr("disabled");
-        $(".cover-button").removeClass("disabledButton");
-    }
-}
-</script>
+<script src="assets/js/admin.js?1000"></script>
 <?php
-
     $username = "root";
     $password = "password";
     $hostname = "localhost";
@@ -264,6 +146,7 @@ function coverChange() {
 
     if($page == "cover") {
 ?>
+        <script src="assets/js/cover.js?1000"></script>
         <table class="nav-table">
             <tr>
                 <td><a href="admin.php?page=cover"><u>Cover Photos</u></a></td>
@@ -294,6 +177,10 @@ function coverChange() {
                             }
 ?>
                         </div>
+                        <br>
+                        <input type="file" accept="image/*" name="cover_file" id="uploadCover" style="display: none;" onchange="gotChange(this)" />
+                        <input class="uploadButton" type="button" value="Browse..." onclick="document.getElementById('uploadCover').click();" />
+                        <span class="uploadHeading">Upload New Cover: </span>
                     </td>
                     <td>
                         <div class="cover-preview">
@@ -305,6 +192,8 @@ function coverChange() {
                 </tr>
             </table>
         </div>
+    </body>
+    </html>
 <?php
         exit();
     }
