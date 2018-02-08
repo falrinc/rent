@@ -220,15 +220,15 @@ function setCoverButtons(element) {
         $(".cover-list").append("<div class=\"floating-move-button downarrow\" id=\"coverDownArrow\" onclick=\"moveDownSelected()\"></div>");
     }
     if($("#coverRemove").length == 0) {
-        $(".cover-list").append("<div class=\"floating-move-button remove\" id=\"coverRemove\" onclick=\"promptConfirm('removeSelectedCover()', 'remove this cover')\"></div>");
+        $(".cover-list").append("<div class=\"floating-move-button remove\" id=\"coverRemove\" onclick=\"promptConfirm('removeSelectedCover()', 'Are you sure you want to remove this cover?')\"></div>");
     }
 
     $("#coverUpArrow").css("left", element.position().left + element.width() + $("#coverUpArrow").width());
     $("#coverUpArrow").css("top", element.position().top);
     $("#coverDownArrow").css("left", element.position().left + element.width() + $("#coverDownArrow").width());
     $("#coverDownArrow").css("top", element.position().top + $("#coverDownArrow").height() + 1);
-    $("#coverRemove").css("left", element.position().left + - $("#coverDownArrow").width() - 2);
-    $("#coverRemove").css("top", element.position().top + ($("#coverDownArrow").height() / 2) + 1);
+    $("#coverRemove").css("left", element.position().left + - $("#coverRemove").width() - 2);
+    $("#coverRemove").css("top", element.position().top + ($("#coverRemove").height() / 2) + 1);
 }
 
 function coverChange() {

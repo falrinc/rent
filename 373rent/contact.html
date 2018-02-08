@@ -181,7 +181,7 @@
           var params = gotUrl.split("apt=");
           if(params.length > 1) {
               $aptID = params[1].replace(/%20/g, " ");
-              $("#selApt").val($aptID);
+              $("#selApt").val($("#" + $aptID).val());
           }
         }
       });

@@ -12,18 +12,35 @@ function handleResult(result) {
     }
 
     if(result == "noaction") {
+        messageBox("No action was specified.");
         return false;
     }
 
     if(result == "error") {
+        messageBox("An unidentified error occured.");
+        return false;
+    }
+
+    if(result == "fileexists") {
+        messageBox("Cover image already exists.");
         return false;
     }
 
     if(result == "invalidaction") {
+        messageBox("An invalid action was specified.");
         return false;
     }
 
-    return true;
+    if(result == "fileproblem") {
+        messageBox("There was a problem with the file being uploaded.");
+        return false;
+    }
+
+    if(result == "success") {
+        return true;
+    }
+
+    return false;
 }
 
 function logout() {
@@ -55,6 +72,16 @@ function promptConfirm(targetFunction, prompt) {
     backgroundLocked = true;
 
     $("body").append("<div class=\"background-lock\" onclick=\"cancelConfirm()\"></div>");
-    $("body").append("<div class=\"confirm-box\"><p>Are you sure you want to " + prompt + "?</p><button class=\"green-button\" onclick=\"cancelConfirm();" + targetFunction + "\">Yes</button><button class=\"red-button\" onclick=\"cancelConfirm()\">No</button></div>");
+    $("body").append("<div class=\"confirm-box\"><p>" + prompt + "</p><button class=\"green-button\" onclick=\"cancelConfirm();" + targetFunction + "\">Yes</button><button class=\"red-button\" onclick=\"cancelConfirm()\">No</button></div>");
 }
 
+function messageBox(prompt) {
+    $("body").append("<div class=\"message-box\">" + prompt + "</div>")
+    $(".message-box").animate({opacity: 1.0}, 500, function() {
+        setTimeout(function(){
+            $(".message-box").animate({opacity: 0.0}, 500, function() {
+                $(".message-box").remove();
+            });
+        }, 2000);
+    });
+}

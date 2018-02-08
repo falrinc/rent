@@ -84,8 +84,8 @@ if(!isset($_POST["action"])) {
 
     $time = $_SERVER['REQUEST_TIME'];
 
-    //10 minutes
-    if(isset($_SESSION["timeout"]) && ($time - $_SESSION["timeout"]) > 600) {
+    //20 minutes
+    if(isset($_SESSION["timeout"]) && ($time - $_SESSION["timeout"]) > 1200) {
         session_unset();
         session_destroy();
 ?>
@@ -191,6 +191,91 @@ if(!isset($_POST["action"])) {
                     </td>
                 </tr>
             </table>
+        </div>
+    </body>
+    </html>
+<?php
+        exit();
+    }
+
+    if($page == "neighborhood") {
+?>
+        <script src="assets/js/neighborhood.js?1000"></script>
+        <table class="nav-table">
+            <tr>
+                <td><a href="admin.php?page=cover"><u>Cover Photos</u></a></td>
+                <td><a href="admin.php?page=apartments"><u>Apartments</u></a></td>
+                <td><a href="admin.php?page=neighborhood"><u>Neighborhood Attractions</u></a></td>
+                <td><a href="admin.php?page=waitlist"><u>Waitlist</u></a></td>
+            </tr>
+        </table>
+        <br>
+        <div class="menu-box">
+            <table class="two-col">
+                <tr>
+                    <td>
+                        <div class="neighborhood-list">
+<?php
+                            if($connected) {
+                                $sql = "SELECT id, name FROM extralist ORDER BY name";
+                                $result = $conn->query($sql);
+
+                                if ($result->num_rows > 0) {
+                                    while($row = $result->fetch_assoc()) {
+                                        echo "<div class=\"neighborhood-entry\" onclick=\"neighborhoodSelect(this)\" data-id=\"" . $row["id"] . "\">" . $row["name"] . "</div>";
+                                    }
+                                }
+                            }
+?>
+                        </div>
+                        <br>
+                        <input type="file" accept="image/*" name="cover_file" id="uploadCover" style="display: none;" onchange="gotChange(this)" />
+                        <input class="uploadButton" type="button" value="Browse..." onclick="document.getElementById('uploadCover').click();" />
+                        <span class="uploadHeading">Upload New Cover: </span>
+                    </td>
+                    <td>
+                        <div class="cover-preview">
+                            Select a cover image from the left
+                        </div>
+                        <input class="cover-caption" type="text" data-old="" placeholder="No Caption" value="" disabled />
+                        <button class="cover-button disabledButton" type="button" onclick="coverUpdate()" disabled>Update</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </body>
+    </html>
+<?php
+        exit();
+    }
+
+    if($page == "waitlist") {
+?>
+        <script src="assets/js/waitlist.js?1000"></script>
+        <table class="nav-table">
+            <tr>
+                <td><a href="admin.php?page=cover"><u>Cover Photos</u></a></td>
+                <td><a href="admin.php?page=apartments"><u>Apartments</u></a></td>
+                <td><a href="admin.php?page=neighborhood"><u>Neighborhood Attractions</u></a></td>
+                <td><a href="admin.php?page=waitlist"><u>Waitlist</u></a></td>
+            </tr>
+        </table>
+        <br>
+        <div class="menu-box">
+           <div class="wait-list">
+<?php
+                if($connected) {
+                    $sql = "SELECT email, apt, name FROM notify LEFT JOIN aptlist ON apt=id ORDER BY name";
+                    $result = $conn->query($sql);
+
+                    if ($result->num_rows > 0) {
+                        while($row = $result->fetch_assoc()) {
+                            echo "<div class=\"wait-entry\" data-email=\"" . $row["email"] . "\" data-apt=\"" . $row["apt"] . "\" onclick=\"waitlistSelect(this)\">" . $row["email"] . "<span class=\"align-right\">" . $row["name"] . "</span></div>";
+                        }
+                    }
+                }
+?>
+            </div>
         </div>
     </body>
     </html>
