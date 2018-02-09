@@ -36,11 +36,11 @@ function handleResult(result) {
         return false;
     }
 
-    if(result == "success") {
-        return true;
+    if(result == "failure") {
+        return false;
     }
 
-    return false;
+    return true;
 }
 
 function logout() {

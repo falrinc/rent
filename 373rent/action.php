@@ -240,6 +240,13 @@ if($action == "removeCover") {
         $sql = "DELETE FROM coverphotos WHERE src='" . $src . "'";
         $result = $conn->query($sql);
 
+        $sql = "SELECT * FROM coverphotos WHERE src='" . $src . "'";
+        $result = $conn->query($sql);
+
+        if($result->num_rows == 0) {
+            unlink(realpath($src));
+        }
+
         $sql = "SELECT id, src FROM coverphotos ORDER BY id";
         $result = $conn->query($sql);
 
@@ -290,6 +297,27 @@ if($action == "removeNeighborhood") {
         $result = $conn->query($sql);
 
         echo "success";
+    } else {
+        echo "error";
+    }
+
+    exit();
+}
+
+if($action == "pullNeighborhoodData") {
+    if($connected) {
+        $id = mysqli_real_escape_string($conn, $_POST["id"]);
+
+        $sql = "SELECT name, weblink, maplink, description FROM extralist  WHERE id='" . $id . "'";
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            
+            echo "neighborhoodName==" . $row["name"] . "<br>neighborhoodSite==" . $row["weblink"] . "<br>neighborhoodMap==" . $row["maplink"] . "<br>neighborhoodDesc==" . $row["description"];
+        } else {
+            echo "error";
+        }
     } else {
         echo "error";
     }

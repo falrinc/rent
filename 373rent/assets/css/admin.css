@@ -83,12 +83,14 @@ button.red-button {
     padding-bottom:60px;
     padding-left:40px;
     padding-right:40px;
+    margin-bottom:60px;
 }
 
 .wait-list {
     border:1px solid rgb(155,155,155);
     position:relative;
     width:100%;
+    min-height:28px;
 }
 .wait-entry {
     font-size:24px;
@@ -108,6 +110,7 @@ button.red-button {
     border:1px solid rgb(155,155,155);
     margin-right:20px;
     position:relative;
+    min-height:28px;
 }
 .neighborhood-entry {
     font-size:18px;
@@ -124,6 +127,7 @@ button.red-button {
     border:1px solid rgb(155,155,155);
     margin-right:20px;
     position:relative;
+    min-height:28px;
 }
 .cover-entry {
     font-size:18px;
@@ -175,8 +179,37 @@ button.red-button {
     height:30px;
     width:70px;
 }
+.updateButton {
+    font-size:20px;
+    position:absolute;
+    right:10px;
+}
 .disabledButton {
     opacity:0.5;
+}
+
+.catList {
+    border:1px solid rgb(155,155,155);
+    background-color:white;
+    padding-bottom:32px;
+    width:100%;
+}
+.addButton {
+    float:right;
+    height:28px;
+    width:28px;
+    background-size:100%;
+    background-image:url("../images/add.png");
+    cursor:pointer;
+    position:relative;
+    top:-30px;
+    right:2px;
+}
+.photoList {
+    border:1px solid rgb(155,155,155);
+    background-color:white;
+    width:100%;
+    padding-bottom:32px;
 }
 
 .altSelected {
@@ -188,6 +221,8 @@ button.red-button {
 }
 .two-col td {
     width:50%;
+    vertical-align:top;
+    position:relative;
 }
 
 .uploadButton {
@@ -196,11 +231,44 @@ button.red-button {
     margin-left:20px;
     font-size:18px;
 }
-
 .uploadHeading {
     float:right;
     font-size:24px;
+}
+
+.inputButton {
+    font-size:18px;
+    width:80px;
+}
+.inputHeading {
+    font-size:20px;
+    margin-right:4px;
+}
+.inputField {
+    font-size:18px;
+    width:244px;
+}
+
+.body-table {
+    width:400px;
+    margin-left:18px;
     position:relative;
+}
+.body-table td {
+    padding-top:8px;
+    padding-bottom:8px;
+    position:relative;
+}
+.tableField {
+    font-size:18px;
+    width:300px;
+    position:absolute;
+    left:100px;
+}
+.tableLong {
+    font-size:16px;
+    width:100%;
+    resize: none;
 }
 
 .nav-table {
@@ -222,7 +290,7 @@ button.red-button {
 }
 
 .floating-logout {
-    position:absolute;
+    position:fixed;
     top:5px;
     left:6px;
     z-index:1001;

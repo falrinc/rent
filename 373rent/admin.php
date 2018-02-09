@@ -229,16 +229,54 @@ if(!isset($_POST["action"])) {
 ?>
                         </div>
                         <br>
-                        <input type="file" accept="image/*" name="cover_file" id="uploadCover" style="display: none;" onchange="gotChange(this)" />
-                        <input class="uploadButton" type="button" value="Browse..." onclick="document.getElementById('uploadCover').click();" />
-                        <span class="uploadHeading">Upload New Cover: </span>
+                        <span class="inputHeading">New Entry: </span>
+                        <input class="inputField" type="text" name="input_name" id="inputName" placeholder="Name" />
+                        <input class="inputButton" type="button" value="Create" onclick="neighborhoodCreate()" />
                     </td>
                     <td>
-                        <div class="cover-preview">
-                            Select a cover image from the left
-                        </div>
-                        <input class="cover-caption" type="text" data-old="" placeholder="No Caption" value="" disabled />
-                        <button class="cover-button disabledButton" type="button" onclick="coverUpdate()" disabled>Update</button>
+                        <table class="body-table">
+                            <tr>
+                                <td>
+                                    <span class="inputHeading">Name: </span>
+                                    <input class="tableField" data-old="" type="text" name="neighborhood_name" id="neighborhoodName" disabled />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="inputHeading">Website: </span>
+                                    <input class="tableField" data-old="" type="text" name="neighborhood_site" id="neighborhoodSite" disabled />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="inputHeading">Maplink: </span>
+                                    <input class="tableField" data-old="" type="text" name="neighborhood_map" id="neighborhoodMap" disabled />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="inputHeading">Description: </span>
+                                    <textarea class="tableLong" data-old="" name="neighborhood_desc" id="neighborhoodDesc" rows="6" disabled ></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="inputHeading">Categories: </span>
+                                    <div class="catList" data-changed="false">
+                                    </div>
+                                    <div class="addButton disabledButton" id="neighborhoodCategoryAddButton" onclick="neighborhoodAddCategory()" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="inputHeading">Photos: </span>
+                                    <div class="photoList" data-changed="false">
+                                    </div>
+                                    <div class="addButton disabledButton" id="neighborhoodPhotoAddButton" onclick="neighborhoodAddPhoto()" />
+                                </td>
+                            </tr>
+                        </table>
+                        <input class="updateButton disabledButton" type="button" id="neighborhoodUpdateButton" value="Update" onclick="neighborhoodUpdate()" disabled />
                     </td>
                 </tr>
             </table>
