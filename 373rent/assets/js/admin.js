@@ -22,7 +22,12 @@ function handleResult(result) {
     }
 
     if(result == "fileexists") {
-        messageBox("Cover image already exists.");
+        messageBox("Image already exists.");
+        return false;
+    }
+
+    if(result == "entryexists") {
+        messageBox("Entry already exists.");
         return false;
     }
 

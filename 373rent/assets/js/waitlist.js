@@ -40,6 +40,7 @@ function waitlistDeselect() {
 }
 
 function waitlistSelect(element) {
+    if($(element).hasClass("altSelected")) return;
     $(".wait-entry").removeClass("altSelected");
     $(element).addClass("altSelected");
 

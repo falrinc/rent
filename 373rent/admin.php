@@ -272,6 +272,7 @@ if(!isset($_POST["action"])) {
                                     <span class="inputHeading">Photos: </span>
                                     <div class="photoList" data-changed="false">
                                     </div>
+                                    <input type="file" multiple accept="image/*" name="photo_file" id="uploadPhoto" style="display: none;" onchange="gotChange(this)" />
                                     <div class="addButton disabledButton" id="neighborhoodPhotoAddButton" onclick="neighborhoodAddPhoto()" />
                                 </td>
                             </tr>

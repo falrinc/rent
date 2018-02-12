@@ -145,6 +145,61 @@ button.red-button {
     margin-left:18px;
     border:1px solid rgb(200,200,200);
 }
+
+.catListEntry {
+    width:100%;
+    padding-top:10px;
+    padding-bottom:5px;
+    padding-left:8px;
+    padding-right:32px;
+}
+.photoListEntry {
+    display:inline-block;
+    width:180px;
+    height:100px;
+    margin-left:8px;
+    margin-right:8px;
+    margin-top:8px;
+    margin-bottom:8px;
+    position:relative;
+}
+.photoListEntry img {
+    width:100%;
+    height:100%;
+    border: 1px solid rgb(155,155,155);
+    opacity: 0.75;
+    cursor:pointer;
+}
+.photoListEntry.coverPhoto img {
+    border: 2px solid rgb(100,100,200);
+    opacity: 1.0;
+    cursor:default;
+}
+
+.static-remove-button {
+    width:28px;
+    height:28px;
+    cursor:pointer;
+    background-size:100%;
+    border: 1px dashed red;
+    position:absolute;
+    top:2px;
+    left:2px;
+    background-image:url("../images/remove.png");
+}
+
+.static-move-button {
+    float:left;
+    width:28px;
+    height:28px;
+    cursor:pointer;
+    background-size:100%;
+    margin-right:8px;
+}
+.static-move-button.remove {
+    background-image:url("../images/remove.png");
+}
+
 .floating-move-button {
     width:28px;
     height:28px;
@@ -247,6 +302,12 @@ button.red-button {
 .inputField {
     font-size:18px;
     width:244px;
+}
+
+.subField {
+    font-size:20px;
+    width:320px;
+    border: 0;
 }
 
 .body-table {

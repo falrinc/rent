@@ -197,6 +197,7 @@ function coverDeselect() {
 }
 
 function coverSelect(element) {
+    if($(element).hasClass("altSelected")) return;
     $(".cover-entry").removeClass("altSelected");
     $(element).addClass("altSelected");
     imgSrc = $(element).html();

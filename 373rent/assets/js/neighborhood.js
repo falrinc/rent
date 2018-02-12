@@ -30,6 +30,120 @@ function removeSelectedNeighborhood() {
     });
 }
 
+function gotChange(fileBox) {
+    if(fileBox.value != "") {
+        formdata = new FormData();
+        for(i = 0; i < fileBox.files.length; i++) {
+            formdata.append("image_" + i, fileBox.files[i]);
+        }
+        
+        formdata.append("action","uploadNeighborhoodPhoto");
+
+        $.ajax({
+            type     : "POST",
+            cache    : false,
+            contentType: false,
+            processData: false,
+            url      : "action.php",
+            data     : formdata,
+            success: function(data) {
+                if(handleResult(data)) {
+                    for(i = 0; i < fileBox.files.length; i++) {
+                        appString = "<div class=\"photoListEntry\">";
+                        appString += "<img src=\"assets/images/thingsToDo/" + fileBox.files[i].name + "\" onclick=\"setNeighborhoodCoverPhoto(this)\"/>";
+                        appString += "<div class=\"static-remove-button \" onclick=\"removeNeighborhoodPhoto(this)\"></div>";
+                        appString += "</div>";
+                        $(".photoList").append(appString);
+                    }
+
+                    if(!$(".coverPhoto")[0]) {
+                        $(".photoListEntry").first().addClass("coverPhoto");
+                    }
+
+                    $(".photoList").data("changed", "true");
+                    neighborhoodChange();
+                }
+                fileBox.value = "";
+            }
+        });
+    }
+}
+
+function neighborhoodAddPhoto() {
+    if($("#neighborhoodPhotoAddButton").hasClass("disabledButton")) return;
+
+    document.getElementById('uploadPhoto').click();
+    return;
+}
+
+function neighborhoodCreate() {
+    if($("#inputName").val() == "") return;
+
+    fullName = $("#inputName").val();
+
+    $.ajax({
+        type     : "POST",
+        cache    : false,
+        url      : "action.php",
+        data     : {action: "createNeighborhood",
+                    name: fullName},
+        success  : function(data) {
+            if(handleResult(data)) {
+                genID = data.split("==");
+                $("#inputName").val("");
+
+                $(".neighborhood-list").append("<div class=\"neighborhood-entry\" onclick=\"neighborhoodSelect(this)\" data-id=\"" + genID[1] + "\">" + fullName + "</div>");
+            }
+        }
+    });
+
+    return;
+}
+
+function neighborhoodAddCategory() {
+    if($("#neighborhoodCategoryAddButton").hasClass("disabledButton")) return;
+
+    appString = "<div class=\"catListEntry\">";
+    appString += "<div class=\"static-move-button remove \" onclick=\"removeNeighborhoodCatRow(this)\"></div>";
+    appString += "<input class=\"subField\" placeholder=\"Enter Category...\" data-old=\"\" value=\"\" type=\"text\" list=\"catSuggestions\" />";
+    appString += "</div>";
+
+    $(".catList").append(appString);
+    $(".subField").bind("input propertychange", function() { neighborhoodChange(); });
+
+    $(".catList").data("changed", "true");
+    neighborhoodChange();
+}
+
+function removeNeighborhoodCatRow(element) {
+    $(element).parent().remove();
+    $(".catList").data("changed", "true");
+    neighborhoodChange();
+}
+
+function removeNeighborhoodPhoto(element) {
+    wasCover = false;
+    if($(element).parent().hasClass("coverPhoto")) wasCover = true;
+    $(element).parent().remove();
+    $(".photoList").data("changed", "true");
+
+    if(wasCover) {
+        $(".photoListEntry").first().addClass("coverPhoto");
+    }
+
+    neighborhoodChange();
+}
+
+function setNeighborhoodCoverPhoto(element) {
+    if($(element).parent().hasClass("coverPhoto")) return;
+
+    $(".coverPhoto").removeClass("coverPhoto");
+    $(element).parent().addClass("coverPhoto");
+    $(".photoList").data("changed", "true");
+
+    neighborhoodChange();
+}
+
 function neighborhoodDeselect() {
     $(".neighborhood-entry").removeClass("altSelected");
 
@@ -53,6 +167,7 @@ function neighborhoodDeselect() {
 }
 
 function neighborhoodSelect(element) {
+    if($(element).hasClass("altSelected")) return;
     $(".neighborhood-entry").removeClass("altSelected");
     $(element).addClass("altSelected");
 
@@ -88,6 +203,36 @@ function fillNeighborhoodTables() {
             }
         }
     });
+
+    $(".photoList").html("");
+    $(".catList").html("");
+
+    $.ajax({
+        type     : "POST",
+        cache    : false,
+        url      : "action.php",
+        data     : {action: "pullNeighborhoodPhotos",
+                    id: gid},
+        success  : function(data) {
+            if(handleResult(data)) {
+                $(".photoList").append(data);
+            }
+        }
+    });
+
+    $.ajax({
+        type     : "POST",
+        cache    : false,
+        url      : "action.php",
+        data     : {action: "pullNeighborhoodCategories",
+                    id: gid},
+        success  : function(data) {
+            if(handleResult(data)) {
+                $(".catList").append(data);
+                $(".subField").bind("input propertychange", function() { neighborhoodChange(); });
+            }
+        }
+    });
 }
 
 function setNeighborhoodButtons(element) {
@@ -108,6 +253,10 @@ function neighborhoodChange() {
     if($("#neighborhoodDesc").val() != $("#neighborhoodDesc").data("old")) anythingChanged = true;
     if($(".catList").data("changed") == "true") anythingChanged = true;
     if($(".photoList").data("changed") == "true") anythingChanged = true;
+    
+    $(".subField").each(function() {
+        if($(this).val() != $(this).data("old")) anythingChanged = true;
+    });
 
     if(!anythingChanged) {
         $(".updateButton").attr("disabled", "disabled");

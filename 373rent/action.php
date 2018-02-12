@@ -110,6 +110,79 @@ if($action == "uploadCover") {
     exit();
 }
 
+if($action == "createNeighborhood") {
+    if($connected) {
+        $fName = mysqli_real_escape_string($conn, $_POST["name"]);
+        $genID = str_replace(" ", "", $fName);
+        $genID = str_replace(".", "", $genID);
+        $genID = str_replace(",", "", $genID);
+        $genID = str_replace(":", "", $genID);
+        $genID = str_replace(";", "", $genID);
+        $genID = str_replace("/", "", $genID);
+        $genID = str_replace("\\", "", $genID);
+        $genID = str_replace("-", "", $genID);
+        $genID = str_replace("_", "", $genID);
+
+        $sql = "SELECT id FROM extralist WHERE id='" . $genID . "'";
+        $result = $conn->query($sql);
+
+        if($result->num_rows > 0) {
+            echo "entryexists";
+            exit();
+        }
+
+        $sql = "INSERT INTO extralist(id, name) VALUES('" . $genID . "','" . $fName . "')";
+        $result = $conn->query($sql);
+
+        echo "success==" . $genID;
+    } else {
+        echo "error";
+    }
+
+    exit();
+}
+
+if($action == "uploadNeighborhoodPhoto") {
+    if($connected) {
+        $testNum = 0;
+
+        while(isset($_FILES["image_" . $testNum])) {
+            $fName = "assets/images/thingsToDo/" . $_FILES["image_" . $testNum]["name"];
+
+            $src = mysqli_real_escape_string($conn, $fName);
+
+            $sql = "SELECT src FROM extraphotos WHERE src='" . $src . "'";
+            $result = $conn->query($sql);
+
+            if($result->num_rows > 0) {
+                echo "fileexists";
+                exit();
+            }
+
+            $sql = "SELECT cover FROM extralist WHERE cover='" . $src . "'";
+            $result = $conn->query($sql);
+
+            if($result->num_rows > 0) {
+                echo "fileexists";
+                exit();
+            }
+
+            if(!move_uploaded_file($_FILES["image_" . $testNum]["tmp_name"], $fName)) {
+                echo "fileproblem";
+                exit();
+            }
+
+            $testNum += 1;
+        }
+
+        echo "success";
+    } else {
+        echo "error";
+    }
+
+    exit();
+}
+
 if($action == "moveUpCover") {
     if($connected) {
         $src = mysqli_real_escape_string($conn, $_POST["src"]);
@@ -318,6 +391,78 @@ if($action == "pullNeighborhoodData") {
         } else {
             echo "error";
         }
+    } else {
+        echo "error";
+    }
+
+    exit();
+}
+
+if($action == "pullNeighborhoodPhotos") {
+    if($connected) {
+        $id = mysqli_real_escape_string($conn, $_POST["id"]);
+
+        $sql = "SELECT cover FROM extralist WHERE id='" . $id . "'";
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+
+            if(!is_null($row["cover"])) {
+                echo "<div class=\"photoListEntry coverPhoto\">";
+                echo "<img src=\"" . $row["cover"] . "\" onclick=\"setNeighborhoodCoverPhoto(this)\"/>";
+                echo "<div class=\"static-remove-button \" onclick=\"removeNeighborhoodPhoto(this)\"></div>";
+                echo "</div>";
+            }
+        }
+
+        $sql = "SELECT src FROM extraphotos WHERE id='" . $id . "'";
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+                echo "<div class=\"photoListEntry\">";
+                echo "<img src=\"" . $row["src"] . "\" onclick=\"setNeighborhoodCoverPhoto(this)\"/>";
+                echo "<div class=\"static-remove-button \" onclick=\"removeNeighborhoodPhoto(this)\"></div>";
+                echo "</div>";
+            }
+        }
+    } else {
+        echo "error";
+    }
+
+    exit();
+}
+
+if($action == "pullNeighborhoodCategories") {
+    if($connected) {
+        $id = mysqli_real_escape_string($conn, $_POST["id"]);
+
+        $sql = "SELECT type FROM categories WHERE id='" . $id . "' ORDER BY type";
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+                echo "<div class=\"catListEntry\">";
+                echo "<div class=\"static-move-button remove \" onclick=\"removeNeighborhoodCatRow(this)\"></div>";
+                echo "<input class=\"subField\" placeholder=\"Enter Category...\" data-old=\"" . $row["type"] . "\" value=\"" . $row["type"] . "\" type=\"text\" list=\"catSuggestions\" />";
+                echo "</div>";
+            }
+        }
+
+        $sql = "SELECT distinct type FROM categories ORDER BY type";
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            echo "<datalist id=\"catSuggestions\">";
+
+            while($row = $result->fetch_assoc()) {
+                echo "<option value=\"" . $row["type"] . "\">";
+            }
+
+            echo "</datalist>";
+        }
+
     } else {
         echo "error";
     }
