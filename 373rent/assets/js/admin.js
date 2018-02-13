@@ -1,5 +1,39 @@
 backgroundLocked = false;
 
+function loaded() {
+    //nothing
+}
+
+function maintenanceToggle(element) {
+    if($(element).is(":checked")) {
+        $.ajax({
+            type     : "POST",
+            cache    : false,
+            url      : "action.php",
+            data     : {action: "toggleMM",
+                        toggle: "true"},
+            success  : function(data) {
+                if(!handleResult(data)) {
+                    $(element).prop("checked", false);
+                }
+            }
+        });
+    } else {
+        $.ajax({
+            type     : "POST",
+            cache    : false,
+            url      : "action.php",
+            data     : {action: "toggleMM",
+                        toggle: "false"},
+            success  : function(data) {
+                if(!handleResult(data)) {
+                    $(element).prop("checked", true);
+                }
+            }
+        });
+    }
+}
+
 function handleResult(result) {
     if(result == "notloggedin") {
         window.location = "login.html";
@@ -18,6 +52,11 @@ function handleResult(result) {
 
     if(result == "error") {
         messageBox("An unidentified error occured.");
+        return false;
+    }
+
+    if(result == "numberformat") {
+        messageBox("A number formatting error occured.");
         return false;
     }
 

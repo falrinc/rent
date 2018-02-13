@@ -15,6 +15,33 @@ if ($conn->connect_error) {
     $connected = FALSE;
 }
 
+if($action == "getMM") {
+    if($connected) {
+        $sql = "SELECT val FROM settings WHERE setting='maintenance'";
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+
+            if(is_null($row["val"])) {
+                echo "false";
+            } else {
+                if($row["val"] == "true") {
+                    echo "true";
+                } else {
+                    echo "false";
+                }
+            }
+        } else {
+            echo "false";
+        }
+    } else {
+        echo "true";
+    }
+
+    exit();
+}
+
 if($action == "coverphotos") {
     if($connected) {
         $sql = "SELECT id, src, caption FROM coverphotos ORDER BY id";
@@ -119,7 +146,12 @@ if($action == "aptlist") {
             while($row = $partApts->fetch_assoc()) {
                 $putDate = "nill";
 
-                echo "<div class=\"sImg\" style=\"background-image: url('" . $row["cover"] ."')\" data-id=\"" . $row["id"] . "\" data-name=\"" . $row["name"] . "\" data-avail=\"" . $putDate . "\" data-assoc=\"" . $row["assoc"] . "\" ></div>";
+                if(is_null($row["cover"])) {
+                    echo "<div class=\"sImg\" style=\"background-image: url('assets/images/noimage.png')\" data-id=\"" . $row["id"] . "\" data-name=\"" . $row["name"] . "\" data-avail=\"" . $putDate . "\" data-assoc=\"" . $row["assoc"] . "\" ></div>";
+                }
+                else {
+                    echo "<div class=\"sImg\" style=\"background-image: url('" . $row["cover"] ."')\" data-id=\"" . $row["id"] . "\" data-name=\"" . $row["name"] . "\" data-avail=\"" . $putDate . "\" data-assoc=\"" . $row["assoc"] . "\" ></div>";
+                }
             }
         }
 
@@ -139,7 +171,12 @@ if($action == "aptlist") {
                     }
                 }
 
-                echo "<div class=\"sImg\" style=\"background-image: url('" . $row["cover"] ."')\" data-id=\"" . $row["id"] . "\" data-name=\"" . $row["name"] . "\" data-avail=\"" . $putDate . "\" data-assoc=\"" . $row["assoc"] . "\" ></div>";
+                if(is_null($row["cover"])) {
+                    echo "<div class=\"sImg\" style=\"background-image: url('assets/images/noimage.png')\" data-id=\"" . $row["id"] . "\" data-name=\"" . $row["name"] . "\" data-avail=\"" . $putDate . "\" data-assoc=\"" . $row["assoc"] . "\" ></div>";
+                }
+                else {
+                    echo "<div class=\"sImg\" style=\"background-image: url('" . $row["cover"] ."')\" data-id=\"" . $row["id"] . "\" data-name=\"" . $row["name"] . "\" data-avail=\"" . $putDate . "\" data-assoc=\"" . $row["assoc"] . "\" ></div>";
+                }
             }
         }
     }
@@ -149,6 +186,19 @@ if($action == "aptlist") {
 
 if($action == "dropdown") {
     if($connected) {
+        $sql = "SELECT val FROM settings WHERE setting='maintenance'";
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+
+            if(!is_null($row["val"])) {
+                if($row["val"] == "true") {
+                    exit();
+                }
+            }
+        }
+
         $sql = "SELECT id, name, available FROM aptlist WHERE available IS NOT NULL ORDER BY available ASC";
         $fullApts = $conn->query($sql);
 

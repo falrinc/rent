@@ -169,6 +169,7 @@ function coverUpdate() {
                 });
 
                 element.data("caption", imgCap);
+                coverDeselect();
                 coverSelect(element);
             }
         }

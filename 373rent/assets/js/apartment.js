@@ -1,20 +1,26 @@
 function loaded() {
-    $(".tableField").bind("input propertychange", function() { neighborhoodChange(); });
-    $(".tableLong").bind("input propertychange", function() { neighborhoodChange(); });
+    $(".tableField").bind("input propertychange", function() { apartmentChange(); });
+    $(".tableLong").bind("input propertychange", function() { apartmentChange(); });
+    $(".tableShort").bind("input propertychange", function() { apartmentChange(); });
 }
 
-function neighborhoodUpdate() {
+function apartmentUpdate() {
     gid = $(".altSelected").data("id");
-    gName = $("#neighborhoodName").val();
-    gMap = $("#neighborhoodMap").val();
-    gSite = $("#neighborhoodSite").val();
-    gDesc = $("#neighborhoodDesc").val();
+    gName = $("#apartmentName").val();
+    gTag = $("#apartmentTag").val();
+    gAddr = $("#apartmentAddr").val();
+    gPrice = $("#apartmentPrice").val();
+    gDesc = $("#apartmentDesc").val();
+    gBed = $("#apartmentBed").val();
+    gBath = $("#apartmentBath").val();
+    gSqft = $("#apartmentSqft").val();
+    gAvail = $("#apartmentAvail").val();
 
-    gCat = [];
+    gAmen = [];
 
-    $(".catListEntry").each(function() {
+    $(".amenListEntry").each(function() {
         $(this).find(".subField").each(function() {
-            gCat.push($(this).val());
+            gAmen.push($(this).val());
         });
     });
 
@@ -37,20 +43,25 @@ function neighborhoodUpdate() {
         type     : "POST",
         cache    : false,
         url      : "action.php",
-        data     : {action: "updateNeighborhood",
+        data     : {action: "updateApartment",
                     id: gid,
                     name: gName,
-                    map: gMap,
-                    site: gSite,
+                    tag: gTag,
+                    addr: gAddr,
+                    price: gPrice,
                     desc: gDesc,
+                    bed: gBed,
+                    bath: gBath,
+                    sqft: gSqft,
+                    avail: gAvail,
                     cover: gCover,
-                    cats: gCat,
+                    amens: gAmen,
                     photos: gPhoto},
         success  : function(data) {
             if(handleResult(data)) {
                 element = null;
 
-                $(".neighborhood-entry").each(function() {
+                $(".apartment-entry").each(function() {
                     if($(this).data("id") == gid) {
                         element = $(this);
                     }
@@ -58,27 +69,27 @@ function neighborhoodUpdate() {
 
                 $(element).html(gName);
 
-                neighborhoodDeselect();
-                neighborhoodSelect(element);
+                apartmentDeselect();
+                apartmentSelect(element);
             }
         }
     });
 }
 
-function removeSelectedNeighborhood() {
+function removeSelectedApartment() {
     gid = $(".altSelected").data("id");
 
     $.ajax({
         type     : "POST",
         cache    : false,
         url      : "action.php",
-        data     : {action: "removeNeighborhood",
+        data     : {action: "removeApartment",
                     id: gid},
         success  : function(data) {
             if(handleResult(data)) {
                 element = null;
 
-                $(".neighborhood-entry").each(function() {
+                $(".apartment-entry").each(function() {
                     if($(this).data("id") == gid) {
                         element = $(this);
                     }
@@ -86,7 +97,7 @@ function removeSelectedNeighborhood() {
 
                 element.remove();
 
-                neighborhoodDeselect();
+                apartmentDeselect();
             }
         }
     });
@@ -99,7 +110,7 @@ function gotChange(fileBox) {
             formdata.append("image_" + i, fileBox.files[i]);
         }
         
-        formdata.append("action","uploadNeighborhoodPhoto");
+        formdata.append("action","uploadApartmentPhoto");
         formdata.append("id", $(".altSelected").data("id"));
 
         $.ajax({
@@ -113,8 +124,8 @@ function gotChange(fileBox) {
                 if(handleResult(data)) {
                     for(i = 0; i < fileBox.files.length; i++) {
                         appString = "<div class=\"photoListEntry\">";
-                        appString += "<img src=\"assets/images/thingsToDo/" + fileBox.files[i].name + "\" onclick=\"setNeighborhoodCoverPhoto(this)\"/>";
-                        appString += "<div class=\"static-remove-button \" onclick=\"removeNeighborhoodPhoto(this)\"></div>";
+                        appString += "<img src=\"assets/images/properties/" + fileBox.files[i].name + "\" onclick=\"setApartmentCoverPhoto(this)\"/>";
+                        appString += "<div class=\"static-remove-button \" onclick=\"removeApartmentPhoto(this)\"></div>";
                         appString += "</div>";
                         $(".photoList").append(appString);
                     }
@@ -124,7 +135,7 @@ function gotChange(fileBox) {
                     }
 
                     $(".photoList").data("changed", "true");
-                    neighborhoodChange();
+                    apartmentChange();
                 }
                 fileBox.value = "";
             }
@@ -132,14 +143,14 @@ function gotChange(fileBox) {
     }
 }
 
-function neighborhoodAddPhoto() {
-    if($("#neighborhoodPhotoAddButton").hasClass("disabledButton")) return;
+function apartmentAddPhoto() {
+    if($("#apartmentPhotoAddButton").hasClass("disabledButton")) return;
 
     document.getElementById('uploadPhoto').click();
     return;
 }
 
-function neighborhoodCreate() {
+function apartmentCreate() {
     if($("#inputName").val() == "") return;
 
     fullName = $("#inputName").val();
@@ -148,14 +159,14 @@ function neighborhoodCreate() {
         type     : "POST",
         cache    : false,
         url      : "action.php",
-        data     : {action: "createNeighborhood",
+        data     : {action: "createApartment",
                     name: fullName},
         success  : function(data) {
             if(handleResult(data)) {
                 genID = data.split("==");
                 $("#inputName").val("");
 
-                $(".neighborhood-list").append("<div class=\"neighborhood-entry\" onclick=\"neighborhoodSelect(this)\" data-id=\"" + genID[1] + "\">" + fullName + "</div>");
+                $(".apartment-list").append("<div class=\"apartment-entry\" onclick=\"apartmentSelect(this)\" data-id=\"" + genID[1] + "\">" + fullName + "</div>");
             }
         }
     });
@@ -163,28 +174,28 @@ function neighborhoodCreate() {
     return;
 }
 
-function neighborhoodAddCategory() {
-    if($("#neighborhoodCategoryAddButton").hasClass("disabledButton")) return;
+function apartmentAddAmenity() {
+    if($("#apartmentAmenityAddButton").hasClass("disabledButton")) return;
 
-    appString = "<div class=\"catListEntry\">";
-    appString += "<div class=\"static-move-button remove \" onclick=\"removeNeighborhoodCatRow(this)\"></div>";
-    appString += "<input class=\"subField\" placeholder=\"Enter Category...\" data-old=\"\" value=\"\" type=\"text\" list=\"catSuggestions\" />";
+    appString = "<div class=\"amenListEntry\">";
+    appString += "<div class=\"static-move-button remove \" onclick=\"removeApartmentAmenRow(this)\"></div>";
+    appString += "<input class=\"subField\" placeholder=\"Enter Amenity...\" data-old=\"\" value=\"\" type=\"text\" list=\"amenSuggestions\" />";
     appString += "</div>";
 
-    $(".catList").append(appString);
-    $(".subField").bind("input propertychange", function() { neighborhoodChange(); });
+    $(".amenList").append(appString);
+    $(".subField").bind("input propertychange", function() { apartmentChange(); });
 
-    $(".catList").data("changed", "true");
-    neighborhoodChange();
+    $(".amenList").data("changed", "true");
+    apartmentChange();
 }
 
-function removeNeighborhoodCatRow(element) {
+function removeApartmentAmenRow(element) {
     $(element).parent().remove();
-    $(".catList").data("changed", "true");
-    neighborhoodChange();
+    $(".amenList").data("changed", "true");
+    apartmentChange();
 }
 
-function removeNeighborhoodPhoto(element) {
+function removeApartmentPhoto(element) {
     wasCover = false;
     if($(element).parent().hasClass("coverPhoto")) wasCover = true;
     $(element).parent().remove();
@@ -194,21 +205,21 @@ function removeNeighborhoodPhoto(element) {
         $(".photoListEntry").first().addClass("coverPhoto");
     }
 
-    neighborhoodChange();
+    apartmentChange();
 }
 
-function setNeighborhoodCoverPhoto(element) {
+function setApartmentCoverPhoto(element) {
     if($(element).parent().hasClass("coverPhoto")) return;
 
     $(".coverPhoto").removeClass("coverPhoto");
     $(element).parent().addClass("coverPhoto");
     $(".photoList").data("changed", "true");
 
-    neighborhoodChange();
+    apartmentChange();
 }
 
-function neighborhoodDeselect() {
-    $(".neighborhood-entry").removeClass("altSelected");
+function apartmentDeselect() {
+    $(".apartment-entry").removeClass("altSelected");
 
     $(".updateButton").attr("disabled", "disabled");
     $(".updateButton").addClass("disabledButton");
@@ -219,40 +230,44 @@ function neighborhoodDeselect() {
     $(".tableLong").data("old", "");
     $(".tableLong").val("");
     $(".tableLong").attr("disabled", "disabled");
-    $(".catList").data("changed", "false");
-    $(".catList").html("");
+    $(".tableShort").data("old", "");
+    $(".tableShort").val("");
+    $(".tableShort").attr("disabled", "disabled");
+    $(".amenList").data("changed", "false");
+    $(".amenList").html("");
     $(".photoList").data("changed", "false");
     $(".photoList").html("");
 
-    if($("#neighborhoodRemove").length > 0) {
-        $("#neighborhoodRemove").remove();
+    if($("#apartmentRemove").length > 0) {
+        $("#apartmentRemove").remove();
     }
 }
 
-function neighborhoodSelect(element) {
+function apartmentSelect(element) {
     if($(element).hasClass("altSelected")) return;
-    $(".neighborhood-entry").removeClass("altSelected");
+    $(".apartment-entry").removeClass("altSelected");
     $(element).addClass("altSelected");
 
     $(".updateButton").attr("disabled", "disabled");
     $(".updateButton").addClass("disabledButton");
     $(".tableField").removeAttr("disabled");
     $(".tableLong").removeAttr("disabled");
+    $(".tableShort").removeAttr("disabled");
     $(".addButton").removeClass("disabledButton");
 
-    fillNeighborhoodTables();
+    fillApartmentTables();
 
-    setNeighborhoodButtons($(element));
+    setApartmentButtons($(element));
 }
 
-function fillNeighborhoodTables() {
+function fillApartmentTables() {
     gid = $(".altSelected").data("id");
 
     $.ajax({
         type     : "POST",
         cache    : false,
         url      : "action.php",
-        data     : {action: "pullNeighborhoodData",
+        data     : {action: "pullApartmentData",
                     id: gid},
         success  : function(data) {
             if(handleResult(data)) {
@@ -268,13 +283,13 @@ function fillNeighborhoodTables() {
     });
 
     $(".photoList").html("");
-    $(".catList").html("");
+    $(".amenList").html("");
 
     $.ajax({
         type     : "POST",
         cache    : false,
         url      : "action.php",
-        data     : {action: "pullNeighborhoodPhotos",
+        data     : {action: "pullApartmentPhotos",
                     id: gid},
         success  : function(data) {
             if(handleResult(data)) {
@@ -287,34 +302,39 @@ function fillNeighborhoodTables() {
         type     : "POST",
         cache    : false,
         url      : "action.php",
-        data     : {action: "pullNeighborhoodCategories",
+        data     : {action: "pullApartmentAmenities",
                     id: gid},
         success  : function(data) {
             if(handleResult(data)) {
-                $(".catList").append(data);
-                $(".subField").bind("input propertychange", function() { neighborhoodChange(); });
+                $(".amenList").append(data);
+                $(".subField").bind("input propertychange", function() { apartmentChange(); });
             }
         }
     });
 }
 
-function setNeighborhoodButtons(element) {
-    if($("#neighborhoodRemove").length == 0) {
-        $(".neighborhood-list").append("<div class=\"floating-move-button remove \" id=\"neighborhoodRemove\" onclick=\"promptConfirm('removeSelectedNeighborhood()', 'Are you sure you want to remove this entry from the things to do?')\"></div>");
+function setApartmentButtons(element) {
+    if($("#apartmentRemove").length == 0) {
+        $(".apartment-list").append("<div class=\"floating-move-button remove \" id=\"apartmentRemove\" onclick=\"promptConfirm('removeSelectedApartment()', 'Are you sure you want to remove this entry from the apartment list?')\"></div>");
     }
 
-    $("#neighborhoodRemove").css("left", element.position().left + - $("#neighborhoodRemove").width() - 2);
-    $("#neighborhoodRemove").css("top", element.position().top + ($("#neighborhoodRemove").height() / 2) + 1);
+    $("#apartmentRemove").css("left", element.position().left + - $("#apartmentRemove").width() - 2);
+    $("#apartmentRemove").css("top", element.position().top + ($("#apartmentRemove").height() / 2) + 1);
 }
 
-function neighborhoodChange() {
+function apartmentChange() {
     anythingChanged = false;
 
-    if($("#neighborhoodName").val() != $("#neighborhoodName").data("old")) anythingChanged = true;
-    if($("#neighborhoodMap").val() != $("#neighborhoodMap").data("old")) anythingChanged = true;
-    if($("#neighborhoodSite").val() != $("#neighborhoodSite").data("old")) anythingChanged = true;
-    if($("#neighborhoodDesc").val() != $("#neighborhoodDesc").data("old")) anythingChanged = true;
-    if($(".catList").data("changed") == "true") anythingChanged = true;
+    if($("#apartmentName").val() != $("#apartmentName").data("old")) anythingChanged = true;
+    if($("#apartmentTag").val() != $("#apartmentTag").data("old")) anythingChanged = true;
+    if($("#apartmentAddr").val() != $("#apartmentAddr").data("old")) anythingChanged = true;
+    if($("#apartmentDesc").val() != $("#apartmentDesc").data("old")) anythingChanged = true;
+    if($("#apartmentPrice").val() != $("#apartmentPrice").data("old")) anythingChanged = true;
+    if($("#apartmentBed").val() != $("#apartmentBed").data("old")) anythingChanged = true;
+    if($("#apartmentBath").val() != $("#apartmentBath").data("old")) anythingChanged = true;
+    if($("#apartmentSqft").val() != $("#apartmentSqft").data("old")) anythingChanged = true;
+    if($("#apartmentAvail").val() != $("#apartmentAvail").data("old")) anythingChanged = true;
+    if($(".amenList").data("changed") == "true") anythingChanged = true;
     if($(".photoList").data("changed") == "true") anythingChanged = true;
     
     $(".subField").each(function() {

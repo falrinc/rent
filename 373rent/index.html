@@ -139,6 +139,16 @@
         }
 
         function updateListingInfo(id, name, avail, assoc) {
+          if(id == undefined) {
+            $("#setinput").prop("value", "");
+            $(".info").html("");
+            $("#aptListLabel").html("");
+            $("#cForm")[0].reset();
+            $(".notifyAvail").hide();
+            $("#altForm").hide();
+            return;
+          }
+
           availText = "(Available " + avail + ")";
           if(avail == "nill") availText = "(Not Currently Available)";
           if(avail == "now") availText = "(Available Now!)";
@@ -240,6 +250,24 @@
           });
         }
 
+        function loadScriptEnd() {
+          firstImg = $($(".aptSlideshowContainer .sImg").get().reverse()).first();
+          updateListingInfo(firstImg.data("id"), firstImg.data("name"), firstImg.data("avail"), firstImg.data("assoc")); 
+          readyLoad();
+
+          $.ajax({
+            url: "listings.php",
+            type: "post",
+            data: {action:"getMM"} ,
+            success: function (response) {
+              if(response == "true") {
+                $("section").remove();
+                $(".main").prepend("<div style=\"padding-top:60px;height:" + (window.innerHeight - 92) + "px\"><center><h1 style=\"font-size:70px;color:black\">We are undergoing maintenance.<br>Sorry for the inconvenience!</h1></center></div>");
+              }
+            }
+          });
+        }
+
         function loadScript() {
 
           loadNum = 0;
@@ -257,18 +285,14 @@
               loadNum += 1;
 
               if(loadNum >= 5) {
-                firstImg = $($(".aptSlideshowContainer .sImg").get().reverse()).first();
-                updateListingInfo(firstImg.data("id"), firstImg.data("name"), firstImg.data("avail"), firstImg.data("assoc")); 
-                readyLoad();
+                loadScriptEnd();
               }
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
               loadNum += 1;
 
               if(loadNum >= 5) {
-                firstImg = $($(".aptSlideshowContainer .sImg").get().reverse()).first();
-                updateListingInfo(firstImg.data("id"), firstImg.data("name"), firstImg.data("avail"), firstImg.data("assoc")); 
-                readyLoad();
+                loadScriptEnd();
               }
             }
           });
@@ -282,18 +306,14 @@
               loadNum += 1;
 
               if(loadNum >= 5) {
-                firstImg = $($(".aptSlideshowContainer .sImg").get().reverse()).first();
-                updateListingInfo(firstImg.data("id"), firstImg.data("name"), firstImg.data("avail"), firstImg.data("assoc")); 
-                readyLoad();
+                loadScriptEnd();
               }
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
               loadNum += 1;
 
               if(loadNum >= 5) {
-                firstImg = $($(".aptSlideshowContainer .sImg").get().reverse()).first();
-                updateListingInfo(firstImg.data("id"), firstImg.data("name"), firstImg.data("avail"), firstImg.data("assoc")); 
-                readyLoad();
+                loadScriptEnd();
               }
             }
           });
@@ -307,18 +327,14 @@
               loadNum += 1;
 
               if(loadNum >= 5) {
-                firstImg = $($(".aptSlideshowContainer .sImg").get().reverse()).first();
-                updateListingInfo(firstImg.data("id"), firstImg.data("name"), firstImg.data("avail"), firstImg.data("assoc")); 
-                readyLoad();
+                loadScriptEnd();
               }
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
               loadNum += 1;
 
               if(loadNum >= 5) {
-                firstImg = $($(".aptSlideshowContainer .sImg").get().reverse()).first();
-                updateListingInfo(firstImg.data("id"), firstImg.data("name"), firstImg.data("avail"), firstImg.data("assoc")); 
-                readyLoad();
+                loadScriptEnd();
               }
             }
           });
@@ -332,18 +348,14 @@
               loadNum += 1;
 
               if(loadNum >= 5) {
-                firstImg = $($(".aptSlideshowContainer .sImg").get().reverse()).first();
-                updateListingInfo(firstImg.data("id"), firstImg.data("name"), firstImg.data("avail"), firstImg.data("assoc")); 
-                readyLoad();
+                loadScriptEnd();
               }
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
               loadNum += 1;
 
               if(loadNum >= 5) {
-                firstImg = $($(".aptSlideshowContainer .sImg").get().reverse()).first();
-                updateListingInfo(firstImg.data("id"), firstImg.data("name"), firstImg.data("avail"), firstImg.data("assoc")); 
-                readyLoad();
+                loadScriptEnd();
               }
             }
           });
@@ -357,18 +369,14 @@
               loadNum += 1;
 
               if(loadNum >= 5) {
-                firstImg = $($(".aptSlideshowContainer .sImg").get().reverse()).first();
-                updateListingInfo(firstImg.data("id"), firstImg.data("name"), firstImg.data("avail"), firstImg.data("assoc")); 
-                readyLoad();
+                loadScriptEnd();
               }
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
               loadNum += 1;
 
               if(loadNum >= 5) {
-                firstImg = $($(".aptSlideshowContainer .sImg").get().reverse()).first();
-                updateListingInfo(firstImg.data("id"), firstImg.data("name"), firstImg.data("avail"), firstImg.data("assoc"));   
-                readyLoad();
+                loadScriptEnd();
               }
             }
           });
@@ -399,7 +407,7 @@
               <div style="position:absolute;left:0px;bottom:6px" class="col-sm-6">
                 <a href="login.html"><img style="width:28px;height:28px" src="assets/images/gear.png" /></a>
               </div>
-              <div class="col-sm-6">
+              <div class="col-sm-6" style="position:relative;left:6px">
                 <a class="copyright font-alt" href="tel:13523737368">(352)373-7368</a>
               </div>
               <div class="col-sm-6">

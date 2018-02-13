@@ -107,10 +107,6 @@ if(!isset($_POST["action"])) {
         $page = $_GET["page"];
     }
 
-?>
-<button class="floating-logout" type="button" onclick="logout()">Logout</button>
-<script src="assets/js/admin.js?1000"></script>
-<?php
     $username = "root";
     $password = "password";
     $hostname = "localhost";
@@ -123,6 +119,51 @@ if(!isset($_POST["action"])) {
         $connected = FALSE;
     }
 
+    $mm = false;
+
+    if($connected) {
+        $sql = "SELECT val FROM settings WHERE setting='maintenance'";
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+
+            if(is_null($row["val"])) {
+                $mm = false;
+            } else {
+                if($row["val"] == "true") {
+                    $mm = true;
+                } else {
+                    $mm = false;
+                }
+            }
+        } else {
+            $mm = false;
+        }
+    } else {
+        $mm = true;
+    }
+    echo $mm;
+?>
+<button class="floating-logout" type="button" onclick="logout()">Logout</button>
+<span class="cblabel">Maintenance Mode:</span>
+<label class="switch">
+<?php
+
+    if($mm) {
+?>
+    <input type="checkbox" checked onchange="maintenanceToggle(this)">
+<?php
+    } else {
+?>
+    <input type="checkbox" onchange="maintenanceToggle(this)">
+<?php
+    }
+?>
+    <span class="slider round"></span>
+</label>
+<script src="assets/js/admin.js?1000"></script>
+<?php
     if($page == "default") {
 ?>
         <center><h1 class="large-heading">Administration Menu</h1></center>
@@ -188,6 +229,126 @@ if(!isset($_POST["action"])) {
                         </div>
                         <input class="cover-caption" type="text" data-old="" placeholder="No Caption" value="" disabled />
                         <button class="cover-button disabledButton" type="button" onclick="coverUpdate()" disabled>Update</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </body>
+    </html>
+<?php
+        exit();
+    }
+
+    if($page == "apartments") {
+?>
+        <script src="assets/js/apartment.js?1000"></script>
+        <table class="nav-table">
+            <tr>
+                <td><a href="admin.php?page=cover"><u>Cover Photos</u></a></td>
+                <td><a href="admin.php?page=apartments"><u>Apartments</u></a></td>
+                <td><a href="admin.php?page=neighborhood"><u>Neighborhood Attractions</u></a></td>
+                <td><a href="admin.php?page=waitlist"><u>Waitlist</u></a></td>
+            </tr>
+        </table>
+        <br>
+        <div class="menu-box">
+            <table class="two-col">
+                <tr>
+                    <td>
+                        <div class="apartment-list">
+<?php
+                            if($connected) {
+                                $sql = "SELECT id, name FROM aptlist ORDER BY name";
+                                $result = $conn->query($sql);
+
+                                if ($result->num_rows > 0) {
+                                    while($row = $result->fetch_assoc()) {
+                                        echo "<div class=\"apartment-entry\" onclick=\"apartmentSelect(this)\" data-id=\"" . $row["id"] . "\">" . $row["name"] . "</div>";
+                                    }
+                                }
+                            }
+?>
+                        </div>
+                        <br>
+                        <span class="inputHeading">New Entry: </span>
+                        <input class="inputField" type="text" name="input_name" id="inputName" placeholder="Name" />
+                        <input class="inputButton" type="button" value="Create" onclick="apartmentCreate()" />
+                    </td>
+                    <td>
+                        <table class="body-table">
+                            <tr>
+                                <td>
+                                    <span class="inputHeading">Name: </span>
+                                    <input class="tableField" data-old="" type="text" name="apartment_name" id="apartmentName" disabled />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="inputHeading">Tagline: </span>
+                                    <input class="tableField" data-old="" type="text" name="apartment_tag" id="apartmentTag" disabled />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="inputHeading">Address: </span>
+                                    <input class="tableField" data-old="" type="text" name="apartment_addr" id="apartmentAddr" disabled />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="inputHeading">Price: </span>
+                                    <input class="tableField" data-old="" type="text" name="apartment_price" id="apartmentPrice" disabled />
+                                </td>
+                            </tr>
+                        </table>
+                        <table class="inner-table">
+                            <tr>
+                                <td>
+                                    <span class="inputHeading">Bed: </span><br>
+                                    <input class="tableShort" data-old="" type="text" name="apartment_bed" id="apartmentBed" disabled />
+                                </td>
+                                <td>
+                                    <span class="inputHeading">Bath: </span><br>
+                                    <input class="tableShort" data-old="" type="text" name="apartment_bath" id="apartmentBath" disabled />
+                                </td>
+                                <td>
+                                    <span class="inputHeading">Sq ft: </span><br>
+                                    <input class="tableShort" data-old="" type="text" name="apartment_sqft" id="apartmentSqft" disabled />
+                                </td>
+                            </tr>
+                        </table>
+                        <table class="body-table">
+                            <tr>
+                                <td>
+                                    <span class="inputHeading">Available: </span>
+                                    <input class="tableField" data-old="" type="date" name="apartment_avail" id="apartmentAvail" disabled />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="inputHeading">Description: </span>
+                                    <textarea class="tableLong" data-old="" name="apartment_desc" id="apartmentDesc" rows="6" disabled ></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="inputHeading">Amenities: </span>
+                                    <div class="amenList" data-changed="false">
+                                    </div>
+                                    <div class="addButton disabledButton" id="apartmentAmenityAddButton" onclick="apartmentAddAmenity()" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="inputHeading">Photos: </span>
+                                    <div class="photoList" data-changed="false">
+                                    </div>
+                                    <input type="file" multiple accept="image/*" name="photo_file" id="uploadPhoto" style="display: none;" onchange="gotChange(this)" />
+                                    <div class="addButton disabledButton" id="apartmentPhotoAddButton" onclick="apartmentAddPhoto()" />
+                                </td>
+                            </tr>
+                        </table>
+                        <input class="updateButton disabledButton" type="button" id="apartmentUpdateButton" value="Update" onclick="apartmentUpdate()" disabled />
                     </td>
                 </tr>
             </table>

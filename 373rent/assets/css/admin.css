@@ -2,6 +2,73 @@
     font-size:72px;
 }
 
+.cblabel {
+    font-size:24px;
+    position:fixed;
+    top:2px;
+    right:100px;
+    z-index:1001;
+    color:white;
+}
+
+.switch {
+  position: fixed;
+  display: inline-block;
+  width: 80px;
+  height: 36px;
+  right:6px;
+  top:5px;
+  z-index:1001;
+}
+.switch input {display:none;}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 28px;
+  width: 28px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(44px);
+  -ms-transform: translateX(44px);
+  transform: translateX(44px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
 .background-lock {
     width:100%;
     height:100%;
@@ -123,6 +190,23 @@ button.red-button {
     cursor:pointer;
 }
 
+.apartment-list {
+    border:1px solid rgb(155,155,155);
+    margin-right:20px;
+    position:relative;
+    min-height:28px;
+}
+.apartment-entry {
+    font-size:18px;
+    padding-left:8px;
+    padding-right:16px;
+    padding-bottom:16px;
+    padding-top:16px;
+    background-color:rgb(230,230,230);
+    border-bottom:1px solid rgb(200,200,200);
+    cursor:pointer;
+}
+
 .cover-list {
     border:1px solid rgb(155,155,155);
     margin-right:20px;
@@ -147,6 +231,13 @@ button.red-button {
 }
 
 .catListEntry {
+    width:100%;
+    padding-top:10px;
+    padding-bottom:5px;
+    padding-left:8px;
+    padding-right:32px;
+}
+.amenListEntry {
     width:100%;
     padding-top:10px;
     padding-bottom:5px;
@@ -243,6 +334,13 @@ button.red-button {
     opacity:0.5;
 }
 
+.amenList {
+    border:1px solid rgb(155,155,155);
+    background-color:white;
+    padding-bottom:32px;
+    width:100%;
+}
+
 .catList {
     border:1px solid rgb(155,155,155);
     background-color:white;
@@ -320,6 +418,21 @@ button.red-button {
     padding-bottom:8px;
     position:relative;
 }
+.inner-table {
+    width:400px;
+    margin-left:18px;
+    margin-top:6px;
+    margin-bottom:2px;
+    position:relative;
+}
+.inner-table td {
+    width:120px;
+    position:relative;
+}
+.tableShort {
+    font-size:18px;
+    width:100px;
+}
 .tableField {
     font-size:18px;
     width:300px;
@@ -367,7 +480,7 @@ button.red-button {
     margin-bottom:8px;
     font-size:20px;
     color:rgb(55,55,55);
-    background-color:rgb(240,240,240);
+    background-color:rgb(250,250,250);
 }
 
 .login-button {

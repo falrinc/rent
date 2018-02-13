@@ -55,10 +55,10 @@
   opacity:0.5;
   color:rgb(200,200,200);
   text-shadow:
-    -1px -1px 0 rgb(155,155,155),
-    1px -1px 0 rgb(155,155,155),
-    -1px 1px 0 rgb(155,155,155),
-    1px 1px 0 rgb(155,155,155);  
+    -1px -1px 0 rgb(55,55,55),
+    1px -1px 0 rgb(55,55,55),
+    -1px 1px 0 rgb(55,55,55),
+    1px 1px 0 rgb(55,55,55);  
 }
 
 .aptSlideshow .faded {
