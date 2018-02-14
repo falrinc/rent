@@ -119,9 +119,23 @@ if($action == "thingstodo") {
             while($row = $result->fetch_assoc()) {
                 echo "<div class=\"cb content_" . $row["id"] . "\">";
                 echo "<div class=\"sb slideBox_" . $row["id"] . "\">";
-                echo "<img class=\"slide_" . $row["id"] . "\" src=\"" . $row["cover"] . "\" />";
-                //extra photos
-                echo "<iframe class=\"slide_" . $row["id"] . "\" frameborder=\"0\" data-src=\"" . $row["maplink"] . "\"></iframe>";
+                //no cover
+                //echo "<img class=\"slide_" . $row["id"] . "\" src=\"" . $row["cover"] . "\" />";
+                
+                $sub_sql = "SELECT src FROM extraphotos WHERE id='" . $row["id"] . "'";
+                $sub_result = $conn->query($sub_sql);
+
+                if ($sub_result->num_rows > 0) {
+                    while($sub_row = $sub_result->fetch_assoc()) {
+                        echo "<img class=\"slide_" . $row["id"] . "\" src=\"" . $sub_row["src"] . "\" />";
+                    }
+                } else {
+                    if(is_null($row["maplink"])) {
+                        echo "<img class=\"slide_" . $row["id"] . "\" src=\"assets/images/noimage.png\" />";
+                    }
+                }
+
+                if(!is_null($row["maplink"])) echo "<iframe class=\"slide_" . $row["id"] . "\" frameborder=\"0\" data-src=\"" . $row["maplink"] . "\"></iframe>";
                 echo "<a class=\"prevSlide\" onclick=\"showSlides('_" . $row["id"] . "', -1)\">&#10094;</a>";
                 echo "<a class=\"nextSlide\" onclick=\"showSlides('_" . $row["id"] . "', 1)\">&#10095;</a>";
                 echo "</div>";
