@@ -9,7 +9,7 @@ $message = "No Message";
 $apt = "";
 $subject = "Message Received";
 
-if(isset($_POST["apt"]) && !empty($_POST["apt"])) $subject = $_POST["apt"];
+if(isset($_POST["apartment"]) && !empty($_POST["apartment"])) $subject = $_POST["apartment"];
 if(isset($_POST["message"]) && !empty($_POST["message"])) $message = $_POST["message"];
 
 if($apt != "") {

@@ -1,19 +1,8 @@
 <?php
+require_once("connect.php");
 
 if(!isset($_POST["action"])) { exit(); }
 $action = $_POST["action"];
-
-$username = "root";
-$password = "password";
-$hostname = "localhost";
-$dbname = "aptinfo";
-$connected = TRUE;
-
-$conn = new mysqli($hostname, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    $connected = FALSE;
-}
 
 if($action == "getMM") {
     if($connected) {
@@ -141,8 +130,8 @@ if($action == "thingstodo") {
                 echo "</div>";
                 echo "<h1>" . $row["name"] . "</h1>";
                 echo "<p>" . $row["description"] . "</p>";
-                echo "<a class=\"web_button\" target=\"_blank\" href=\"" . $row["weblink"] . "\"><i class=\"fa fa-globe\"></i></a>";
-                echo "<a class=\"close_button\" onclick=\"hideContent()\"><i class=\"fa fa-window-close\"></i></a>";
+                if(!is_null($row["weblink"])) echo "<a class=\"web_button\" target=\"_blank\" href=\"" . $row["weblink"] . "\"><i class=\"fa fa-globe\"></i></a>";
+                echo "<a class=\"close_button\" onclick=\"hideContent('_" . $row["id"] . "')\"><i class=\"fa fa-window-close\"></i></a>";
                 echo "</div>";
             }
         }
@@ -169,7 +158,7 @@ if($action == "aptlist") {
             }
         }
 
-        $sql = "SELECT id, name, available, cover, assoc FROM aptlist WHERE available IS NOT NULL ORDER BY available DESC";
+        $sql = "SELECT id, name, available, cover, assoc FROM aptlist WHERE available IS NOT NULL ORDER BY available DESC, name DESC";
         $fullApts = $conn->query($sql);
 
         if($fullApts->num_rows > 0) {

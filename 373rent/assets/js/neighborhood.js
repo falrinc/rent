@@ -260,6 +260,7 @@ function fillNeighborhoodTables() {
 
                 for (i = 0; i < res.length; i++) {
                     subres = res[i].split("==");
+                    if(subres[0][0] == "\n") subres[0] = subres[0].substring(1,subres[0].length);
                     $("#" + subres[0]).val(subres[1]);
                     $("#" + subres[0]).data("old", subres[1]);
                 }

@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once("connect.php");
 
 if(!isset($_POST["action"])) {
 ?>
@@ -105,18 +106,6 @@ if(!isset($_POST["action"])) {
 
     if(isset($_GET["page"])) {
         $page = $_GET["page"];
-    }
-
-    $username = "root";
-    $password = "password";
-    $hostname = "localhost";
-    $dbname = "aptinfo";
-    $connected = TRUE;
-
-    $conn = new mysqli($hostname, $username, $password, $dbname);
-
-    if ($conn->connect_error) {
-        $connected = FALSE;
     }
 
     $mm = false;
@@ -510,18 +499,6 @@ if($action == "logout") {
 
 if($action == "login") {
     if(isset($_POST["username"]) && isset($_POST["password"])) {
-        $username = "root";
-        $password = "password";
-        $hostname = "localhost";
-        $dbname = "aptinfo";
-        $connected = TRUE;
-
-        $conn = new mysqli($hostname, $username, $password, $dbname);
-
-        if ($conn->connect_error) {
-            $connected = FALSE;
-        }
-
         if($connected) {
             $uname = mysqli_real_escape_string($conn, $_POST["username"]);
             $pword = mysqli_real_escape_string($conn, $_POST["password"]);

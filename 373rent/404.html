@@ -4,6 +4,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <META NAME = "Keywords" CONTENT = "Konish Family Apartments, downtown, Gainesville, Florida, USA, unique apartments, convenient location, quiet and secure, owner onsite">
+    <META NAME = "Description" CONTENT="Konish Family Apartments is an apartment community located near the University of Florida and SFCC in downtown Gainesville, Florida.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!--  
     Document Title
     =============================================
@@ -22,11 +25,11 @@
     <link rel="apple-touch-icon" sizes="144x144" href="assets/images/favicons/apple-icon-144x144.png">
     <link rel="apple-touch-icon" sizes="152x152" href="assets/images/favicons/apple-icon-152x152.png">
     <link rel="apple-touch-icon" sizes="180x180" href="assets/images/favicons/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="assets/images/favicons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="assets/images/favicons/android-icon-192x192.png">
     <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="96x96" href="assets/images/favicons/favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicons/favicon-16x16.png">
-    <link rel="manifest" href="/manifest.json">
+    <link rel="manifest" href="assets/images/favicons/manifest.json">
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="assets/images/favicons/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
@@ -53,26 +56,67 @@
     <link href="assets/css/style.css" rel="stylesheet">
     <link id="color-scheme" href="assets/css/colors/default.css" rel="stylesheet">
   </head>
-  <body data-spy="scroll" data-target=".onpage-navigation" data-offset="60">
+  <body data-spy="scroll" data-target=".onpage-navigation" data-offset="60" onload="loadScript()">
     <main>
       <div class="page-loader">
         <div class="loader">Loading...</div>
       </div>
-      <section class="home-section home-parallax home-fade home-full-height bg-dark bg-dark-30" id="home" data-background="assets/images/section-4.jpg">
-        <div class="titan-caption">
-          <div class="caption-content">
-            <div class="font-alt mb-30 titan-title-size-4">Error 404</div>
-            <div class="font-alt">The requested URL was not found on this server.<br/>That is all we know.
-            </div>
-            <div class="font-alt mt-30"><a class="btn btn-border-w btn-round" href="index.php">Back to home page</a></div>
+      <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+        <div class="container">
+          <div class="navbar-header">
+            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#custom-collapse"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a class="navbar-brand" href="https://373-rent.com/">(352) 373-RENT</a>
+          </div>
+          <div class="collapse navbar-collapse" id="custom-collapse">
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="#home">Home</a>
+              </li>
+              <li class="dropdown"><a href="#rentals">Rental Units</a>
+              </li>
+              <li><a href="#thingsToDo">Things To Do</a>
+              </li>
+              <li><a href="contact.html" style="color:white">Contact Us</a>
+              </li>
+            </ul>
           </div>
         </div>
-      </section>
+      </nav>
+	  
+	  <!-- Start of home page-->
+	  <!-- Home section -->
+      <div class="main">
+        <div id="sizeMe" style="padding-top:60px">
+          <center>
+            <h1 style="font-size:56px;color:black">You have requested a page that does not exist.<br><u><a style="color:rgb(0,0,155);" href="https://373-rent.com/">Click Here</a></u> to go to the home page.</h1>
+          </center>
+        </div>
+        <hr class="divider-d">
+        <footer class="footer bg-dark">
+          <div class="container">
+            <div class="row">
+              <div class="col-sm-6" style="position:relative;left:6px">
+                <a class="copyright font-alt" href="tel:13523737368">(352)373-7368</a>
+              </div>
+              <div class="col-sm-6">
+                <!--<div class="footer-social-links"><a href="#"><i class="fa fa-facebook"></i></a><a href="#"><i class="fa fa-twitter"></i></a><a href="#"><i class="fa fa-dribbble"></i></a><a href="#"><i class="fa fa-skype"></i></a>
+                </div>-->
+              </div>
+            </div>
+          </div>
+        </footer>
+        <div style="position:absolute;right:6px;bottom:6px">
+          <a href="login.html"><img style="width:28px;height:28px" src="assets/images/gear.png" /></a>
+        </div>
+      </div>
     </main>
     <!--  
     JavaScripts
     =============================================
     -->
+    <script>
+    function loadScript() {
+      $("#sizeMe").css("height", (window.innerHeight - 92) + "px");
+    }
+    </script>
     <script src="assets/lib/jquery/dist/jquery.js"></script>
     <script src="assets/lib/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="assets/lib/wow/dist/wow.js"></script>

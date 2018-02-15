@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once("connect.php");
 
 if(!isset($_SESSION["username"])) {
     echo "notloggedin";
@@ -25,18 +26,6 @@ if(!isset($_POST["action"])) {
 }
 
 $action = $_POST["action"];
-
-$username = "root";
-$password = "password";
-$hostname = "localhost";
-$dbname = "aptinfo";
-$connected = TRUE;
-
-$conn = new mysqli($hostname, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    $connected = FALSE;
-}
 
 if($action == "updateNeighborhood") {
     if($connected) {
@@ -369,6 +358,8 @@ if($action == "createNeighborhood") {
         $genID = str_replace("\\", "", $genID);
         $genID = str_replace("-", "", $genID);
         $genID = str_replace("_", "", $genID);
+        $genID = str_replace("'", "", $genID);
+        $genID = str_replace("\"", "", $genID);
 
         $sql = "SELECT id FROM extralist WHERE id='" . $genID . "'";
         $result = $conn->query($sql);
@@ -401,6 +392,8 @@ if($action == "createApartment") {
         $genID = str_replace("\\", "", $genID);
         $genID = str_replace("-", "", $genID);
         $genID = str_replace("_", "", $genID);
+        $genID = str_replace("'", "", $genID);
+        $genID = str_replace("\"", "", $genID);
 
         $sql = "SELECT id FROM extralist WHERE id='" . $genID . "'";
         $result = $conn->query($sql);
@@ -822,7 +815,7 @@ if($action == "pullApartmentPhotos") {
             if(!is_null($row["cover"])) {
                 echo "<div class=\"photoListEntry coverPhoto\">";
                 echo "<img src=\"" . $row["cover"] . "\" onclick=\"setApartmentCoverPhoto(this)\"/>";
-                echo "<div class=\"static-remove-button \" onclick=\"removeApartmenthoodPhoto(this)\"></div>";
+                echo "<div class=\"static-remove-button \" onclick=\"removeApartmentPhoto(this)\"></div>";
                 echo "</div>";
             }
         }
